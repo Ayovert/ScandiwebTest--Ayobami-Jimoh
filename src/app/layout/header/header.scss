@@ -1,0 +1,182 @@
+.navHeader {
+  position: "static";
+  margin-bottom: 20px;
+  background-color: aqua;
+
+  .subHeader {
+    display: flex;
+    align-items: center;
+    margin: 0 100px;
+    .homeHeader {
+      padding: 20px;
+    }
+
+    ul {
+      list-style: none;
+    }
+    .navList {
+      display: flex;
+      flex-direction: row;
+      .navItem {
+        color: black;
+        text-decoration: none;
+        padding: 0 20px 0 20px;
+        &:hover {
+          color: grey;
+        }
+        &.active {
+          color: red;
+        }
+      }
+    }
+
+    .currencyDiv {
+      position: relative;
+      display: flex;
+      .currencyButton {
+        background-color: inherit;
+        border: none;
+        color: black;
+        padding: 15px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .currencyList {
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        display: none;
+        margin-top: 50px;
+        .currencyListItem {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: center;
+        }
+
+        & li:hover {
+          background-color: #f1f1f1;
+        }
+      }
+
+      /* div ul > li:hover, &:hover .currencyButton {
+            background-color: rgb(35, 44, 168);
+          }*/
+
+      &:hover .currencyList {
+        display: block;
+      }
+    }
+
+    .cartOverlay {
+      display: flex;
+      position: relative;
+      margin: 10px;
+
+      &:hover .cartOverlayContent {
+        display: block;
+      } 
+      .cartButton{
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+        padding: 30px 20px;
+      }
+
+      .cartOverlayContent {
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        display: none;
+        margin-top: 70px;
+        margin-left: 30px;
+        width: 325px;
+
+        padding: 20px;
+
+        .cartSummary {
+          padding: 20px;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .cartOverlayButton {
+          display: flex;
+          flex-direction: row;
+          .viewCart {
+            background-color: inherit;
+            border: none;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin: 10px 10px;
+            cursor: pointer;
+            flex: 1;
+          }
+        }
+
+        .cartItems {
+          display: flex;
+          flex-direction: row;
+          padding:5px;
+
+          .productAttributes {
+            font-family:'Raleway', sans-serif;
+            display: flex;
+            flex-direction: column;
+            width: -webkit-fill-available;
+            width: 100%;
+
+            .productSize{
+              border: 1px solid black;
+              font-size: 20px;
+              width: 32px;
+              height: 21px;
+              /* text-align: center; */
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 5px 1px;
+            }
+          }
+
+          .cartControls{
+            display:flex;
+            flex-direction:column; 
+            align-items:center;
+            justify-content:space-between;
+            .cartControlItem{
+              border: 2px solid black;
+              //font-size: 20px;
+              width: 26px;
+              height: 26px;
+              /* text-align: center; */
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+
+          .cartImage{
+            background-size:cover; 
+            width: 80%; 
+            margin-left:20px;
+          }
+        }
+      }
+    }
+  }
+}

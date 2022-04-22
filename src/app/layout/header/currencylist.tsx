@@ -19,18 +19,19 @@ const currency = [
 export default function CurrencyList() {
   const [open, setOpen] = useState(false);
 
-  const handleClick = (event: any) => {
+  const handleCurrency = (currency:string) => {
     setOpen(!open);
+    document.cookie = `currency=${currency}`;
   };
   return (
     <>
   
     
       <div className="currencyList" >
-        <ul style={{listStyle: 'none' }}>
+        <ul style={{listStyle: 'none', padding:0 }}>
           {currency.map(({ symbol, name }) => {
             return (
-              <li key ={name} className="currencyListItem">
+              <li key ={name} className="currencyListItem" onClick={() => handleCurrency(name)}>
                 <span>{symbol} </span>
                 <span> {name}</span>
               </li>

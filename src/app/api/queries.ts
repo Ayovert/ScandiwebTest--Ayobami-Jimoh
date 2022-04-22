@@ -10,11 +10,6 @@ export const EXCHANGE_RATES = gql`
   }
 `;
 
-type CategoryInput ={
-  input?:{
-    title: string
-  }
-}
 
 export const GET_CATEGORY = gql`
 query category($input: CategoryInput!) 
@@ -23,6 +18,7 @@ query category($input: CategoryInput!)
     name
     products {
       id
+      name
       prices {
         amount
         currency {
@@ -47,4 +43,33 @@ query category($input: CategoryInput!)
   }
    
   }
+`;
+
+export const GET_PRODUCT = gql`
+query product($id: String!){
+  product(id: $id){
+     id
+    name
+      prices {
+        amount
+        currency {
+          symbol
+        }
+      }
+      category
+      description
+      gallery
+      attributes {
+        name
+        type
+
+        items {
+          displayValue
+          value
+        }
+      }
+      inStock
+      brand
+  }
+}
 `;

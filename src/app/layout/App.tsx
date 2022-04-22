@@ -1,12 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import Header from './header/header';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { EXCHANGE_RATES } from '../api/queries';
-import CategoryPage from '../../features/category/category';
+import ProductListPage from '../../features/product/products';
 import HomePage from '../../features/home/homepage';
-import ProductDetails from '../../features/Product/productDetails'
+import ProductDetails from '../../features/product/productDetails'
 import NotFound from '../../features/error/NotFound';
 import CartPage from '../../features/Cart/cartPage';
 
@@ -32,20 +32,20 @@ function App() {
     <>
     <Header/>
     <div style={{margin: 100}}>
-      <Routes>
-        <Route path='/' element={<HomePage/>}/>
+      <Switch>
+        <Route exact path='/' render={() =><HomePage/>}/>
 
        
 
-        <Route path='/women' element={<CategoryPage categoryName='clothes'/>} />
-        <Route path='/men' element={<CategoryPage categoryName='tech'/>} />
-        <Route path='/kids' element={<CategoryPage categoryName='tech'/>}/>
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path='/women' render={() =><ProductListPage categoryName='clothes'/>} />
+        <Route path='/men' render={() =><ProductListPage categoryName='tech'/>}/>
+        <Route path='/kids' render={() =><ProductListPage  categoryName='tech'/>}/>
+        <Route path="/product/:id" render={() =><ProductDetails />} />
 
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" render={() =><NotFound/>}/>
 
-        <Route path="/cart" element={<CartPage/>}/>
-      </Routes>
+        <Route path="/cart" render={() =><CartPage/>}/>
+      </Switch>
     </div>
     </>
   );

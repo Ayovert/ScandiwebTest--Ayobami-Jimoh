@@ -6,9 +6,9 @@ import {ReactComponent as CartIcon} from '../../images/cart.svg'
 import cartImg from "../../images/cart.svg";
 
 const navLinks = [
-    { title: "women", path: "/women" },
-    { title: "men", path: "/men" },
-    { title: "kids", path: "/kids" },
+    { title: "WOMEN", path: "/women" },
+    { title: "MEN", path: "/men" },
+    { title: "KIDS", path: "/kids" },
   ];
 
 export default function Header(){
@@ -46,7 +46,20 @@ export default function Header(){
 
                     <div className='currencyDiv'>
                     <button type='button' className="currencyButton">
-        <span>$ ^</span>
+        <span>$</span> 
+        <span className='currencyArrow' 
+        style={{
+            display: 'inline-block',
+  transform: 'rotateX(180deg)',
+  WebkitTransform: 'rotateX(180deg)',
+  fontSize: 20,
+  position: 'relative',
+  bottom: '10%', 
+  margin: 5
+        }}
+        >
+            ^
+        </span>
       </button>
       <CurrencyList/>
                     </div>

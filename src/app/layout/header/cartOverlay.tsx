@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import cartImg from "../../images/cart.svg";
-import hoodie from '../../images/hoodie.jpeg'
+import hoodie from '../../../images/hoodie.jpeg'
 export default function CartOverlay() {
   return (
       

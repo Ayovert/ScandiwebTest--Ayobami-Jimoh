@@ -11,6 +11,9 @@ import {
   useQuery,
   gql
 } from "@apollo/client";
+import { Provider } from 'react-redux';
+
+import {store} from './app/redux/store'
 
 
 const client = new ApolloClient({
@@ -23,7 +26,10 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
     <Router>
-    <App />
+      <Provider store={store}>
+      <App />
+      </Provider>
+   
     </Router>
     </ApolloProvider>
     

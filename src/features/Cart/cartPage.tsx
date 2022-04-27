@@ -1,7 +1,7 @@
 import { PureComponent, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-import hoodie from '../../../src/app/images/hoodie.jpeg'
+import hoodie from '../../../src/images/hoodie.jpeg'
 import './cartPage.scss'
 
  class CartPage extends PureComponent {

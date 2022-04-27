@@ -22,7 +22,8 @@ query category($input: CategoryInput!)
       prices {
         amount
         currency {
-          symbol
+          symbol,
+          label
         }
       }
       category
@@ -53,13 +54,15 @@ query product($id: String!){
       prices {
         amount
         currency {
-          symbol
+          symbol,
+          label
         }
       }
       category
       description
       gallery
       attributes {
+        id
         name
         type
 

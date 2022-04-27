@@ -1,14 +1,29 @@
 .navHeader {
   position: "static";
   margin-bottom: 20px;
-  font-family:'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 
   .subHeader {
     display: flex;
     align-items: center;
     margin: 0 100px;
+
+    justify-content: space-between;
     .homeHeader {
       padding: 20px;
+      .cloudLogo {
+        g {
+          #cloudBack {
+            fill: rgb(42 237 110) !important;
+          }
+          #cloudLeft {
+            fill: rgb(189 255 203) !important;
+          }
+          #cloudRight {
+            fill: rgb(141 243 164) !important;
+          }
+        }
+      }
     }
 
     ul {
@@ -29,164 +44,199 @@
         &.active {
           color: rgb(34, 236, 78);
           border-bottom: 2px solid #36e736;
-    padding-bottom: 15px;
+          padding-bottom: 15px;
         }
       }
     }
 
-    .currencyDiv {
-      position: relative;
+    .rightNav {
       display: flex;
-      .currencyButton {
-        background-color: inherit;
-        border: none;
-        color: black;
-        padding: 15px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
-
-      .currencyList {
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-        display: none;
-        margin-top: 50px;
-        .currencyListItem {
+      align-items: center;
+      justify-content: center;
+      .currencyDiv {
+        position: relative;
+        display: flex;
+        .currencyButton {
+          background-color: inherit;
+          border: none;
           color: black;
-          padding: 12px 16px;
-          text-decoration: none;
-          display: block;
+          padding: 15px 30px;
           text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
         }
 
-        & li:hover {
-          background-color: #f1f1f1;
-        }
-      }
-
-      /* div ul > li:hover, &:hover .currencyButton {
-            background-color: rgb(35, 44, 168);
-          }*/
-
-      &:hover {
         .currencyList {
-          display: block;
-        }
+          ul{
+            position: absolute;
+            right: 0;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: -1;
+          visibility: hidden;
+          margin-top: 50px;
+          border-radius: 3px;
+          transform: translateY(-2em);
 
-        .currencyButton{
-          .currencyArrow{
-            transform: none !important;
-            top: 10%;
-          }
-        }
-      }
-    }
-
-    .cartOverlay {
-      display: flex;
-      position: relative;
-      margin: 10px;
-
-      &:hover .cartOverlayContent {
-        display: block;
-      } 
-      .cartButton{
-        height: 25px;
-        width: 25px;
-        cursor: pointer;
-        padding: 30px 20px;
-      }
-
-      .cartOverlayContent {
-        position: absolute;
-        background-color: #f9f9f9;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 99;
-        display: none;
-        margin-top: 70px;
-        margin-left: 30px;
-        width: 325px;
-
-        padding: 20px;
-
-        .cartSummary {
-          padding: 20px;
-          display: flex;
-          justify-content: space-between;
-        }
-
-        .cartOverlayButton {
-          display: flex;
-          flex-direction: row;
-          .viewCart {
-            background-color: inherit;
-            border: none;
-            padding: 15px 20px;
-            text-align: center;
+          transition: all 0.3s ease 0s, visibility 0s linear,
+            z-index 0s linear 0.01s;
+          .currencyListItem {
+            color: black;
+            padding: 12px 16px;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            margin: 10px 10px;
-            cursor: pointer;
-            flex: 1;
+            display: block;
+            text-align: center;
           }
+          & li:hover {
+            background-color: #f1f1f1;
+          }
+          }
+
+          
         }
 
-        .cartItems {
-          display: flex;
-          flex-direction: row;
-          padding:5px;
+        /* div ul > li:hover, &:hover .currencyButton {
+              background-color: rgb(35, 44, 168);
+            }*/
 
-          .productAttributes {
-            //font-family:'Raleway', sans-serif;
+        &:hover, &:focus, &:focus-within {
+          .currencyList {
+            ul{
+              opacity: 1;
+            z-index: 1;
+            transform: translateY(0);
+            transition-delay: 0s, 0s, 0.3s;
+            visibility: visible;
+            }
+            
+            
+          }
+
+          .currencyButton {
+            .currencyArrow {
+              transform: none !important;
+              transition: all 0.3s ease 0s;
+              top: 10%;
+            }
+          }
+        }
+      }
+
+      .cartOverlay {
+        display: flex;
+        position: relative;
+        margin: 10px;
+
+        &:hover .cartOverlayContent {
+          visibility: visible;
+          opacity: 1;
+            z-index: 99;
+            transform: translateY(0);
+            transition-delay: 0s, 0s, 0.3s;
+            display: block;
+        }
+        .cartButton {
+          height: 25px;
+          width: 25px;
+          cursor: pointer;
+          padding: 30px 20px;
+        }
+
+        .cartOverlayContent {
+
+          position: absolute;
+          right: 0;
+          background-color: #f9f9f9;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: -1;
+          opacity: 0;
+          visibility: hidden;
+          margin-top: 70px;
+          margin-left: 30px;
+          width: 325px;
+
+          padding: 20px;
+          border-radius: 3px;
+          transform: translateY(-2em);
+          transition: all 0.3s ease 0s, visibility 0s linear,
+            z-index 0s linear 0.01s;
+
+          .cartSummary {
+            padding: 20px;
             display: flex;
-            flex-direction: column;
-            width: -webkit-fill-available;
-            width: 100%;
+            justify-content: space-between;
+          }
 
-            .productSize{
-              border: 1px solid black;
-              font-size: 20px;
-              width: 32px;
-              height: 21px;
-              /* text-align: center; */
+          .cartOverlayButton {
+            display: flex;
+            flex-direction: row;
+            .viewCart {
+              background-color: inherit;
+              border: none;
+              padding: 15px 20px;
+              text-align: center;
+              text-decoration: none;
               display: flex;
               align-items: center;
               justify-content: center;
-              padding: 5px 1px;
+              font-size: 16px;
+              margin: 10px 10px;
+              cursor: pointer;
+              flex: 1;
             }
           }
 
-          .cartControls{
-            display:flex;
-            flex-direction:column; 
-            align-items:center;
-            justify-content:space-between;
-            .cartControlItem{
-              border: 2px solid black;
-              //font-size: 20px;
-              width: 26px;
-              height: 26px;
-              /* text-align: center; */
+          .cartItems {
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+
+            .productAttributes {
+              //font-family:'Raleway', sans-serif;
               display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-          }
+              flex-direction: column;
+              width: -webkit-fill-available;
+              width: 100%;
 
-          .cartImage{
-            background-size:cover; 
-            width: 80%; 
-            margin-left:20px;
+              .productSize {
+                border: 1px solid black;
+                font-size: 20px;
+                width: 32px;
+                height: 21px;
+                /* text-align: center; */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 1px;
+              }
+            }
+
+            .cartControls {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              .cartControlItem {
+                border: 2px solid black;
+                //font-size: 20px;
+                width: 26px;
+                height: 26px;
+                /* text-align: center; */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+
+            .cartImage {
+              background-size: cover;
+              width: 80%;
+              margin-left: 20px;
+            }
           }
         }
       }

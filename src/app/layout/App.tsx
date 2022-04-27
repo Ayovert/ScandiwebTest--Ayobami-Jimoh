@@ -37,9 +37,9 @@ function App() {
 
        
 
-        <Route path='/women' render={() =><ProductListPage categoryName='clothes'/>} />
-        <Route path='/men' render={() =><ProductListPage categoryName='tech'/>}/>
-        <Route path='/kids' render={() =><ProductListPage  categoryName='tech'/>}/>
+        <Route path='/shop' render={() =><ProductListPage categoryName='all' pageTitle='SHOP'/>} />
+        <Route path='/TECH' render={() =><ProductListPage categoryName='tech' pageTitle='TECH'/>}/>
+        <Route path='/clothes' render={() =><ProductListPage  categoryName='clothes' pageTitle='CLOTHES'/>}/>
         <Route path="/product/:id" render={() =><ProductDetails />} />
 
         <Route path="*" render={() =><NotFound/>}/>

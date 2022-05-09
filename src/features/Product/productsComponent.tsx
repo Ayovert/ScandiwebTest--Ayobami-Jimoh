@@ -80,7 +80,7 @@ class ProductListPage2 extends Component<Props>{
                 
                         <div className="productCardAction">
                         <Link
-                      to={`product/${product.id}`}
+                      to={`${pageTitle.toLowerCase()}/${product.id}`}
                       style={{ 
                           color:'inherit',
                           textDecoration: "inherit" }}

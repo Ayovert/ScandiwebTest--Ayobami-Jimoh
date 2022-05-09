@@ -35,6 +35,7 @@ const mapStateToProps = (state : RootState) => {
   }
 }
 
+
 /*const mapDispatchToProps =(dispatch: any) => ({
    
   addToCart : (product:Product, quantity?:number) =>{dispatch(AddtoCart({product,quantity}))}
@@ -50,6 +51,14 @@ type PropRedux = ConnectedProps<typeof connector>
 type AppState ={
   currency:number;
 }
+
+
+const routes =[
+  {path:'/shop' , categoryName:'all', pageTitle: 'SHOP'},
+  {path:'/tech' , categoryName:'tech', pageTitle: 'TECH'},
+  {path:'/clothes' , categoryName:'clothes', pageTitle: 'CLOTHES'},
+
+]
 
 class App extends PureComponent<PropRedux, AppState> {
 
@@ -111,16 +120,29 @@ class App extends PureComponent<PropRedux, AppState> {
         <Switch>
           <Route exact path='/' render={() =><HomePage/>}/>
   
-         
+         {routes.map((values, index) =>(
+           <Route key={index} path={values.path}>
+
+             <Route exact path={values.path}>
+             <ProductListPage2  categoryName={values.categoryName} pageTitle={values.pageTitle} addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>
+             </Route>
+
+<Route path={`${values.path}/:id`} render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 
+
+             </Route>
+          
+         ))}
   
-          <Route path='/shop' render={() =><ProductListPage2  categoryName='all' pageTitle='SHOP' addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>}/>
+        {/*  <Route path='/shop' render={() =><ProductListPage2  categoryName='all' pageTitle='SHOP' addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>}/>
 
           
           <Route path='/tech' render={() =><ProductListPage2 categoryName='tech' pageTitle='TECH' addCart={addToCart} handleCurrency={this.handleCurrenc} currency={currency}/>}/>
 
-          <Route path='/clothes' render={() =><ProductListPage2  handleCurrency={this.handleCurrenc} categoryName='clothes' pageTitle='CLOTHES' addCart={addToCart} currency={currency}/>}/>
+          <Route path='/clothes' render={() =><ProductListPage2  handleCurrency={this.handleCurrenc} categoryName='clothes' pageTitle='CLOTHES' addCart={addToCart} currency={currency}/>}/> 
+           <Route path="/product/:id" render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 
+          */}
 
-         <Route path="/product/:id" render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 
+        
 
           
           <Route path="cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>

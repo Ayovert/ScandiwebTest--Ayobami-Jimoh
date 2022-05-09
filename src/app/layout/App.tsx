@@ -135,7 +135,7 @@ class App extends PureComponent<PropRedux, AppState> {
         
 
           
-          <Route path="cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
+          <Route path="/cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
   
           <Route path="*" render={() =><NotFound/>}/>
   

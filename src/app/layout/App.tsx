@@ -116,7 +116,7 @@ class App extends PureComponent<PropRedux, AppState> {
       <HeaderComponent cart={cart} handleCurrency={this.handleCurrenc} addCart={addToCart} removeFromCart ={removeFromCart}
       currency={currency}
       />
-      <div style={{margin: 100}}>
+      <div style={{margin: '85px 155px'}}>
         <Switch>
           <Route exact path='/' render={() =><HomePage/>}/>
   
@@ -132,16 +132,6 @@ class App extends PureComponent<PropRedux, AppState> {
              </Route>
           
          ))}
-  
-        {/*  <Route path='/shop' render={() =><ProductListPage2  categoryName='all' pageTitle='SHOP' addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>}/>
-
-          
-          <Route path='/tech' render={() =><ProductListPage2 categoryName='tech' pageTitle='TECH' addCart={addToCart} handleCurrency={this.handleCurrenc} currency={currency}/>}/>
-
-          <Route path='/clothes' render={() =><ProductListPage2  handleCurrency={this.handleCurrenc} categoryName='clothes' pageTitle='CLOTHES' addCart={addToCart} currency={currency}/>}/> 
-           <Route path="/product/:id" render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 
-          */}
-
         
 
           

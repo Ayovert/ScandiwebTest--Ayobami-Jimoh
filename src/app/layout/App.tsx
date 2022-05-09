@@ -60,30 +60,36 @@ const routes =[
 
 ]
 
+const currstr = getCookie('currency');
+
+ 
+    const currencyNum =
+     currstr !== undefined && currstr !== ""? parseInt(currstr) : 0 ;
+
 class App extends PureComponent<PropRedux, AppState> {
 
-  constructor(props:PropRedux){
+  /*constructor(props:PropRedux){
     super(props);
     this.state={
       currency:0
     }
-  }
-
-  /*state: AppState={
-    currency: 0
   }*/
+  state: AppState={
+    currency: currencyNum
+  }
 
 
   handleCurrenc = () => {
     
     
     //this.setState({open: !this.state});
-
    
     const currstr = getCookie('currency');
+
+    console.log(currstr);
  
     const currency =
-      currstr === "" || currstr === undefined ? 0 : parseInt(currstr);
+     currstr !== undefined && currstr !== ""? parseInt(currstr) : 0 ;
     
 
 
@@ -119,6 +125,8 @@ class App extends PureComponent<PropRedux, AppState> {
       <div style={{margin: '85px 155px'}}>
         <Switch>
           <Route exact path='/' render={() =><HomePage/>}/>
+
+          <Route path="/cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
   
          {routes.map((values, index) =>(
            <Route key={index} path={values.path}>
@@ -135,7 +143,7 @@ class App extends PureComponent<PropRedux, AppState> {
         
 
           
-          <Route path="/cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
+          
   
           <Route path="*" render={() =><NotFound/>}/>
   

@@ -76,7 +76,7 @@ class HeaderComponent extends PureComponent<Props> {
                   ^
                 </span>
               </button>
-              <CurrencyList  handleCurrency={handleCurrency}/>
+              <CurrencyList  handleCurrency={handleCurrency} currencyActive={currency}/>
             </div>
   
             <div className="cartOverlay">

@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import { PureComponent, ReactNode, useState } from "react";
 import './header.scss'
 
@@ -26,11 +27,17 @@ const currency = [
 
 type Props={
   handleCurrency:()=>void
+  currencyActive:number;
 }
 
+type CurrencyState={
+  currencyNum:number;
+}
 
 class CurrencyList extends PureComponent<Props> {
-
+state:CurrencyState={
+  currencyNum: this.props.currencyActive
+}
 
 
   handleCurrenc = (index: number) => {
@@ -40,6 +47,10 @@ class CurrencyList extends PureComponent<Props> {
     document.cookie = `currency=${index}`;
   };
 
+ 
+
+
+  
   
 
   
@@ -47,6 +58,8 @@ class CurrencyList extends PureComponent<Props> {
   render(): ReactNode {
 
     const {handleCurrency} = this.props;
+    const {currencyNum} = this.state;
+    console.log(currencyNum);
     return (
       <>
     
@@ -57,8 +70,17 @@ class CurrencyList extends PureComponent<Props> {
              padding:0
              }}>
             {currency.map(({ symbol, name }, index) => {
+
+              
               return (
-                <li key ={name} className="currencyListItem" onClick={() => {
+                <li key ={name} className="currencyListItem"
+                style={{
+                  backgroundColor: `${currencyNum === index  ? '#8df3a4': ""}`
+                }}
+                
+                onClick={() => {
+                  console.log(index)
+                  this.setState({currencyNum: index})
                   this.handleCurrenc(index)
                   handleCurrency()
                   }}>

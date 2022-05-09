@@ -1,54 +1,139 @@
-import logo from './logo.svg';
 import './App.css';
-import Header from './header/header';
 import { Route, Switch } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { EXCHANGE_RATES } from '../api/queries';
-import ProductListPage from '../../features/product/products';
 import HomePage from '../../features/home/homepage';
 import ProductDetails from '../../features/product/productDetails'
 import NotFound from '../../features/error/NotFound';
 import CartPage from '../../features/Cart/cartPage';
+import ProductListPage2 from '../../features/product/productsComponent';
+import { AddtoCart, RemoveFromCart, removeFromCart } from '../../features/Cart/cartSlice';
+import { Product } from '../model/Product';
+import { connect, ConnectedProps } from 'react-redux';
+import { PureComponent } from 'react';
+import { RootState } from '../redux/store';
+import HeaderComponent from './header/header';
+import { getCookie } from '../util/util';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { CartParams } from '../model/Cart';
 
 
-function ExchangeRates() {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return data.rates.map(({ currency, rate }: any) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
-      </p>
-    </div>
-  ));
+interface DispatchProps{
+  addToCart :(cartParams : CartParams) => void;
+  removeFromCart :(cartParams : CartParams) => void;
 }
 
 
-function App() {
-  return (
-    <>
-    <Header/>
-    <div style={{margin: 100}}>
-      <Switch>
-        <Route exact path='/' render={() =><HomePage/>}/>
+const mapDispatchToProps = (dispatch:ThunkDispatch<RootState,void, AnyAction>):DispatchProps => ({
+  addToCart : (cartParams: CartParams) =>{dispatch(AddtoCart(cartParams))},
+  removeFromCart : (cartParams:CartParams) =>{dispatch(RemoveFromCart(cartParams))}
+  
+});
 
-       
 
-        <Route path='/shop' render={() =><ProductListPage categoryName='all' pageTitle='SHOP'/>} />
-        <Route path='/TECH' render={() =><ProductListPage categoryName='tech' pageTitle='TECH'/>}/>
-        <Route path='/clothes' render={() =><ProductListPage  categoryName='clothes' pageTitle='CLOTHES'/>}/>
-        <Route path="/product/:id" render={() =><ProductDetails />} />
-
-        <Route path="*" render={() =><NotFound/>}/>
-
-        <Route path="/cart" render={() =><CartPage/>}/>
-      </Switch>
-    </div>
-    </>
-  );
+const mapStateToProps = (state : RootState) => {
+  return{
+    cart : state.cart.cart
+  }
 }
 
-export default App;
+/*const mapDispatchToProps =(dispatch: any) => ({
+   
+  addToCart : (product:Product, quantity?:number) =>{dispatch(AddtoCart({product,quantity}))}
+})*/
+
+
+
+const connector = connect(mapStateToProps,mapDispatchToProps);
+
+type PropRedux = ConnectedProps<typeof connector>
+
+
+type AppState ={
+  currency:number;
+}
+
+class App extends PureComponent<PropRedux, AppState> {
+
+  constructor(props:PropRedux){
+    super(props);
+    this.state={
+      currency:0
+    }
+  }
+
+  /*state: AppState={
+    currency: 0
+  }*/
+
+
+  handleCurrenc = () => {
+    
+    
+    //this.setState({open: !this.state});
+
+   
+    const currstr = getCookie('currency');
+ 
+    const currency =
+      currstr === "" || currstr === undefined ? 0 : parseInt(currstr);
+    
+
+
+      this.setState({currency:currency});
+
+     
+    
+  };
+
+  componentDidMount(){
+    this.handleCurrenc();
+  }
+
+ 
+
+  render(){
+
+    const { currency} =this.state;
+    const {addToCart, cart, removeFromCart} = this.props;
+
+
+
+   
+  
+
+
+
+    return (
+      <>
+      <HeaderComponent cart={cart} handleCurrency={this.handleCurrenc} addCart={addToCart} removeFromCart ={removeFromCart}
+      currency={currency}
+      />
+      <div style={{margin: 100}}>
+        <Switch>
+          <Route exact path='/' render={() =><HomePage/>}/>
+  
+         
+  
+          <Route path='/shop' render={() =><ProductListPage2  categoryName='all' pageTitle='SHOP' addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>}/>
+
+          
+          <Route path='/tech' render={() =><ProductListPage2 categoryName='tech' pageTitle='TECH' addCart={addToCart} handleCurrency={this.handleCurrenc} currency={currency}/>}/>
+
+          <Route path='/clothes' render={() =><ProductListPage2  handleCurrency={this.handleCurrenc} categoryName='clothes' pageTitle='CLOTHES' addCart={addToCart} currency={currency}/>}/>
+
+         <Route path="/product/:id" render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 
+
+          
+          <Route path="cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
+  
+          <Route path="*" render={() =><NotFound/>}/>
+  
+          
+        </Switch>
+      </div>
+      </>
+    );
+  }
+ 
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

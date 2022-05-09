@@ -3,7 +3,6 @@ import {Attribute, Price, Product} from '../../app/model/Product'
 export interface Cart{
 
     id:number;
-    quantity:number;
     items: CartItems[];
 }
 
@@ -17,6 +16,17 @@ export interface CartItems{
         attributes: Attribute[];
         inStock: boolean;
         brand: string;
-        quantity: number;
-        productId:string;
+        quantity: number;// exce
+        productId:string;//exce
+        selectedColor?:string;
+        selectedSize?:string;
+        selectedCapacity?:string;
+}
+
+export interface CartParams{
+    quantity?: number;
+    product: Product;
+    selectedColor?:string;
+        selectedSize?:string;
+        selectedCapacity?:string;
 }

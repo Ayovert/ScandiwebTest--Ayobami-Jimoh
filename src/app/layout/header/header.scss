@@ -70,50 +70,48 @@
         }
 
         .currencyList {
-          ul{
+          ul {
             position: absolute;
             right: 0;
-          background-color: #f9f9f9;
-          min-width: 160px;
-          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-          z-index: -1;
-          visibility: hidden;
-          margin-top: 50px;
-          border-radius: 3px;
-          transform: translateY(-2em);
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: -1;
+            visibility: hidden;
+            margin-top: 50px;
+            border-radius: 3px;
+            transform: translateY(-2em);
 
-          transition: all 0.3s ease 0s, visibility 0s linear,
-            z-index 0s linear 0.01s;
-          .currencyListItem {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
+            transition: all 0.3s ease 0s, visibility 0s linear,
+              z-index 0s linear 0.01s;
+            .currencyListItem {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+              text-align: center;
+            }
+            & li:hover {
+              background-color: #f1f1f1;
+            }
           }
-          & li:hover {
-            background-color: #f1f1f1;
-          }
-          }
-
-          
         }
 
         /* div ul > li:hover, &:hover .currencyButton {
               background-color: rgb(35, 44, 168);
             }*/
 
-        &:hover, &:focus, &:focus-within {
+        &:hover,
+        &:focus,
+        &:focus-within {
           .currencyList {
-            ul{
+            ul {
               opacity: 1;
-            z-index: 1;
-            transform: translateY(0);
-            transition-delay: 0s, 0s, 0.3s;
-            visibility: visible;
+              z-index: 1;
+              transform: translateY(0);
+              transition-delay: 0s, 0s, 0.3s;
+              visibility: visible;
             }
-            
-            
           }
 
           .currencyButton {
@@ -134,10 +132,10 @@
         &:hover .cartOverlayContent {
           visibility: visible;
           opacity: 1;
-            z-index: 99;
-            transform: translateY(0);
-            transition-delay: 0s, 0s, 0.3s;
-            display: block;
+          z-index: 99;
+          transform: translateY(0);
+          transition-delay: 0s, 0s, 0.3s;
+          display: block;
         }
         .cartButton {
           height: 25px;
@@ -147,7 +145,6 @@
         }
 
         .cartOverlayContent {
-
           position: absolute;
           right: 0;
           background-color: #f9f9f9;
@@ -157,7 +154,7 @@
           visibility: hidden;
           margin-top: 70px;
           margin-left: 30px;
-          width: 325px;
+          width: 380px;
 
           padding: 20px;
           border-radius: 3px;
@@ -194,6 +191,7 @@
             display: flex;
             flex-direction: row;
             padding: 5px;
+            margin-bottom: 40px;
 
             .productAttributes {
               //font-family:'Raleway', sans-serif;
@@ -202,16 +200,83 @@
               width: -webkit-fill-available;
               width: 100%;
 
-              .productSize {
-                border: 1px solid black;
-                font-size: 20px;
-                width: 32px;
-                height: 21px;
-                /* text-align: center; */
+              .productSizeList {
+                margin: 5px 0;
+                .productSizeBox {
+                  display: flex;
+                  align-items: center;
+                  .productSize {
+                    border: 1px solid black;
+                    font-size: 20px;
+
+                    /* text-align: center; */
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                  span {
+                    font-size: 18px;
+                    margin: 5px;
+                    width: 100%;
+                    text-align: center;
+                  }
+                }
+              }
+
+              .productCapacityList {
+                margin: 5px 0;
+                .productCapacityBox {
+                  display: flex;
+                  align-items: center;
+                  .productCapacity {
+                    border: 1px solid black;
+                    font-size: 20px;
+
+                    /* text-align: center; */
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                  span {
+                    font-size: 18px;
+                    margin: 5px;
+                    width: 100%;
+                    text-align: center;
+                  }
+                }
+              }
+
+              .productColorList {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                padding: 5px 1px;
+                background-color: #dddddd;
+                margin: 5px 0;
+                padding: 5px;
+                width: fit-content;
+                .productColorBox {
+                  display: flex;
+                  align-items: center;
+                  .productColor {
+                    border: 0;
+                    font-size: 20px;
+                    width: 30px;
+                    height: 30px;
+                    /* text-align: center; */
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                   
+                    &:hover{
+                        box-shadow: 0px 8px 16px 0px rgba(228, 30, 30, 0.2);
+                    }
+                    .checkmark{
+                      border: 1px solid red;
+                      margin: 0 ;
+                      padding: 2px 6px ;
+                  }
+                  }
+                  
+                }
               }
             }
 
@@ -229,6 +294,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                cursor: pointer;
               }
             }
 
@@ -236,6 +302,17 @@
               background-size: cover;
               width: 80%;
               margin-left: 20px;
+            }
+          }
+          .cartSummary{
+             .cartSummaryTitle{
+               font-family: 'Roboto', sans-serif;
+               font-weight: bold;
+               font-size: 1.1rem;
+            }
+            .cartSummaryData{
+              font-size: 0.85rem;
+               font-weight: 700;
             }
           }
         }

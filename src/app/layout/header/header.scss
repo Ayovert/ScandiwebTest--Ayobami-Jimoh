@@ -162,6 +162,9 @@
           transition: all 0.3s ease 0s, visibility 0s linear,
             z-index 0s linear 0.01s;
 
+            height: 400px;
+            overflow: auto;
+
           .cartSummary {
             padding: 20px;
             display: flex;

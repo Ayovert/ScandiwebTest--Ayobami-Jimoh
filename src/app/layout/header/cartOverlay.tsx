@@ -9,6 +9,7 @@ interface Props{
   currency: number;
   addCart:(cartParams : CartParams)=>void;
   removeFromCart:(cartParams : CartParams)=>void;
+  cartQuantity: number;
 }
 
 class CartOverlay extends PureComponent<Props> {
@@ -32,11 +33,19 @@ class CartOverlay extends PureComponent<Props> {
     return product
   }
   render(): ReactNode {
-    const { cart, addCart, removeFromCart, currency } = this.props;
+    const { cart, addCart, removeFromCart, currency, cartQuantity } = this.props;
     const subtotal = cart?.items.reduce((sum, item) => sum + (item.quantity * item.prices[currency].amount), 0) ?? 0;
-    const symbol = cart?.items[0].prices[currency].currency.symbol;
 
-    const label = cart?.items[0].prices[currency].currency.label;
+    let symbol= "";
+    let label = "";
+
+    if( cart !== null && cart?.items.length>0){
+      symbol = cart?.items[0].prices[currency].currency.symbol;
+
+    label = cart?.items[0].prices[currency].currency.label;
+    }
+    
+
 
    
     return (
@@ -44,8 +53,7 @@ class CartOverlay extends PureComponent<Props> {
         <h3 style={{ padding: "0 5px" }}>My Cart</h3>
 
         {/**cart items */}
-        {cart !== null &&
-          cart.items &&
+        {cart !== null && cart.items.length > 0  ?
           cart.items.map((item, index) => {
 
             const sizeAttr = item.attributes.findIndex(
@@ -259,7 +267,7 @@ class CartOverlay extends PureComponent<Props> {
               ></div>
             </div>
           )
-  })}
+  }): <h1>Cart Empty</h1>}
 
         {/**cart items */}
 

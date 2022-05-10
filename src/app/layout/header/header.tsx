@@ -95,7 +95,7 @@ class HeaderComponent extends PureComponent<Props> {
                 className="cartCount">{cartQuantity} </span>}
                 <CartIcon height={25} width={25} />
               </span>
-              <CartOverlay cart={cart}  addCart={addCart} removeFromCart={removeFromCart} currency={currency}/>
+              <CartOverlay cart={cart}  addCart={addCart} removeFromCart={removeFromCart} currency={currency} cartQuantity={cartQuantity}/>
             </div>
           </div>
         </div>

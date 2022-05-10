@@ -3,14 +3,12 @@ import "./products.scss";
 import { GET_CATEGORY } from "../../app/api/queries";
 import { QueryResult } from "@apollo/client";
 import { Product } from "../../app/model/Product";
-import { Link, Route, RouteComponentProps, RouteProps, Switch, withRouter } from "react-router-dom";
+import { Link,  RouteComponentProps, withRouter } from "react-router-dom";
 import { ReactComponent as CartIcon } from "../../images/cart.svg";
 import { Component } from "react";
 import { Query } from "@apollo/react-components";
 import { CartParams } from "../../app/model/Cart";
 import { __String } from "typescript";
-import path from "path";
-import ProductDetails from "./productDetails";
 
 
 
@@ -21,7 +19,8 @@ import ProductDetails from "./productDetails";
 
 
 
-interface Props extends RouteComponentProps {
+
+interface Props {
   categoryName: string
   pageTitle: string
   addCart:(cartParams : CartParams)=>void
@@ -30,7 +29,7 @@ interface Props extends RouteComponentProps {
 }
 
 
-class ProductListPage2 extends Component<Props>{
+class ProductListPage extends Component<Props>{
 
   /*const { loading, error, data } = useQuery(GET_CATEGORY, {
     variables: { input: { title: this.props.categoryName } },
@@ -49,10 +48,8 @@ class ProductListPage2 extends Component<Props>{
     const currency = currstr !=="" || currstr !==undefined ? 0: parseInt(currstr);*/
   
 
-   const {categoryName, pageTitle, addCart, currency, handleCurrency, match}= this.props;
-   console.log(this.props.match);
-
-   const { path, url} = match;
+   const {categoryName, pageTitle, addCart, currency}= this.props;
+  
 
 
 
@@ -196,6 +193,6 @@ class ProductListPage2 extends Component<Props>{
     
   }
 
-export default withRouter(ProductListPage2)
+export default ProductListPage;
 
 

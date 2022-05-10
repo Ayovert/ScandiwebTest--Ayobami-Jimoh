@@ -24,10 +24,14 @@ interface Props{
 }
 class HeaderComponent extends PureComponent<Props> {
 
+  
+
  
 
   render(): ReactNode {
     const {cart, handleCurrency, addCart, removeFromCart, currency} = this.props;
+
+    const cartQuantity = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
     return (
       <header className="navHeader">
@@ -80,12 +84,15 @@ class HeaderComponent extends PureComponent<Props> {
             </div>
   
             <div className="cartOverlay">
+
               <span
                 className="cartButton"
                 style={{
                   transform: "scaleX(-1)",
                 }}
               >
+               {cartQuantity > 0 && <span
+                className="cartCount">{cartQuantity} </span>}
                 <CartIcon height={25} width={25} />
               </span>
               <CartOverlay cart={cart}  addCart={addCart} removeFromCart={removeFromCart} currency={currency}/>

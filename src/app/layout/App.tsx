@@ -4,9 +4,8 @@ import HomePage from '../../features/home/homepage';
 import ProductDetails from '../../features/product/productDetails'
 import NotFound from '../../features/error/NotFound';
 import CartPage from '../../features/Cart/cartPage';
-import ProductListPage2 from '../../features/product/productsComponent';
-import { AddtoCart, RemoveFromCart, removeFromCart } from '../../features/Cart/cartSlice';
-import { Product } from '../model/Product';
+import ProductListPage from '../../features/product/productsComponent';
+import { AddtoCart, RemoveFromCart } from '../../features/Cart/cartSlice';
 import { connect, ConnectedProps } from 'react-redux';
 import { PureComponent } from 'react';
 import { RootState } from '../redux/store';
@@ -124,7 +123,7 @@ class App extends PureComponent<PropRedux, AppState> {
       />
       <div style={{margin: '85px 155px'}}>
         <Switch>
-          <Route exact path='/' render={() =><HomePage/>}/>
+          <Route exact path='/' render={() =><ProductListPage categoryName={routes[0].categoryName} pageTitle={routes[0].pageTitle} addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc} />}/>
 
           <Route path="/cart" render={() =><CartPage cart={cart} currency={currency} addCart={addToCart} removeFromCart ={removeFromCart}/>}/>
   
@@ -132,7 +131,7 @@ class App extends PureComponent<PropRedux, AppState> {
            <Route key={index} path={values.path}>
 
              <Route exact path={values.path}>
-             <ProductListPage2  categoryName={values.categoryName} pageTitle={values.pageTitle} addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>
+             <ProductListPage  categoryName={values.categoryName} pageTitle={values.pageTitle} addCart={addToCart} currency={currency} handleCurrency={this.handleCurrenc}/>
              </Route>
 
 <Route path={`${values.path}/:id`} render={() =><ProductDetails handleCurrency={this.handleCurrenc} currency={currency} addCart={addToCart}/>} /> 

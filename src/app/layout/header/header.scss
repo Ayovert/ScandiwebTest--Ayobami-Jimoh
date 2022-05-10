@@ -143,6 +143,24 @@
           width: 25px;
           cursor: pointer;
           padding: 30px 20px;
+
+          .cartCount{
+            display: flex;
+            align-items: center;
+            width: 15px;
+            justify-content: center;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            padding: 2px 4px 5px 4px;
+            position: absolute;
+            top: 18px;
+            left: 9px;
+            font-size: 1.2rem;
+            margin: 0px;
+            transform: scaleX(-1);
+          }
         }
 
         .cartOverlayContent {
@@ -301,11 +319,13 @@
                 cursor: pointer;
               }
             }
+            
 
             .cartImage {
               background-size: cover;
               width: 80%;
               margin-left: 20px;
+              background-position-x: center;
             }
           }
           .cartSummary{

@@ -71,7 +71,29 @@ class ProductListPage extends Component<Props>{
                 <h1>{pageTitle}</h1>
 
                 <div className="product">
-                  {data?.category.products.map((product: Product) => (
+                  {data?.category.products.map((product: Product) => {
+
+let defaultSize = "";
+let defaultColor = "";
+let defaultCapacity = "";
+
+for (let x  in product.attributes){
+  let name = product.attributes[x].name.toLowerCase();
+
+  if(name === "size"){
+    defaultSize = product.attributes[x].items[1].value!;
+  }
+
+  else if(name === "color"){
+    defaultColor = product.attributes[x].items[1].value!;
+  }
+  else if(name === "capacity"){
+    defaultCapacity = product.attributes[x].items[1].value!;
+  }
+
+}
+
+                    return(
                       
                     <div key={product.id} className="productCard">
                 
@@ -131,7 +153,10 @@ class ProductListPage extends Component<Props>{
                         </div>
                         
                       <span className="cartButton" onClick={() => {
-                        addCart({product: product});
+                        addCart({product: product, selectedColor: defaultColor,
+                        selectedCapacity: defaultCapacity,
+                        selectedSize: defaultSize
+                        });
                         }}>
                         <CartIcon
                           height={25}
@@ -174,7 +199,7 @@ class ProductListPage extends Component<Props>{
                 
                     </div>
                     
-                  ))}
+                      );})}
                 </div>
 
                 </>

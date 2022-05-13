@@ -1,5 +1,8 @@
 # Getting Started with Create React App
 
+You will need the endpoint at https://github.com/scandiweb/junior-react-endpoint to get data for the project
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

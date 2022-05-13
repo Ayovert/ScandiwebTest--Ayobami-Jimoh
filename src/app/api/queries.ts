@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { type } from "os";
 
 export const EXCHANGE_RATES = gql`
   query GetExchangeRates {
@@ -43,6 +42,23 @@ query category($input: CategoryInput!)
     }
   }
    
+  }
+`;
+
+export const GET_CATEGORIES = gql`
+query categories{
+  categories{
+    name
+  }
+  }
+`;
+
+export const GET_CURRENCIES = gql`
+query categories{
+  currencies{
+    label,
+    symbol
+  }
   }
 `;
 

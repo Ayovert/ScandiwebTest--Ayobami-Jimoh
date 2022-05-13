@@ -14,7 +14,7 @@ export default class NotFound extends PureComponent{
                     width:'100%'
                 }}>
                     <Link
-                    to='/women'
+                    to='/'
                     style={{
                         textDecoration:'none',
                         padding:'0 20px 0 20px'

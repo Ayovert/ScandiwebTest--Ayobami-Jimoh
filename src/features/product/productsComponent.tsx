@@ -3,12 +3,11 @@ import "./products.scss";
 import { GET_CATEGORY } from "../../app/api/queries";
 import { QueryResult } from "@apollo/client";
 import { Product } from "../../app/model/Product";
-import { Link,  RouteComponentProps, withRouter } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { ReactComponent as CartIcon } from "../../images/cart.svg";
 import { Component } from "react";
 import { Query } from "@apollo/react-components";
 import { CartParams } from "../../app/model/Cart";
-import { __String } from "typescript";
 
 
 
@@ -31,21 +30,12 @@ interface Props {
 
 class ProductListPage extends Component<Props>{
 
-  /*const { loading, error, data } = useQuery(GET_CATEGORY, {
-    variables: { input: { title: this.props.categoryName } },
-  });
-  console.log(data);
-  console.log({ error });*/
 
  
 
   render(){
 
-    //const dispatch: AppDispatch = useDispatch();
-
-    /*const currstr = getCookie("currency");
-
-    const currency = currstr !=="" || currstr !==undefined ? 0: parseInt(currstr);*/
+  
   
 
    const {categoryName, pageTitle, addCart, currency}= this.props;

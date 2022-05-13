@@ -40,6 +40,18 @@ export enum AttributeType {
 
     export interface Category{
         name:string;
-        products: Product[];
+        products?: Product[];
+    }
+
+    export interface Categories{
+        category: Category[];
+    }
+
+
+    export interface DefaultAttribute{
+        defaultSize: string;
+        defaultColor: string;
+        defaultCapacity: string;
+
     }
 

@@ -68,6 +68,7 @@ class CartOverlay extends PureComponent<Props> {
                 return (
                   <div key={index} className="cartItems">
                     <div className="productAttributes">
+                      <p>{item.brand}</p>
                       <p
                         style={{
                           margin: "0",

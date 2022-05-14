@@ -157,12 +157,13 @@ for (let x  in product.attributes){
                           }}
                         />
                       </span>
+                    
                       <p
                         style={{
                           fontWeight: 400,
                         }}
                       >
-                        {product.name}
+                        {product.brand} {product.name}
                       </p>
 
                       <span>

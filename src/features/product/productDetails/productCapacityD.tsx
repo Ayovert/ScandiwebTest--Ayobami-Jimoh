@@ -28,17 +28,25 @@ class ProductCapacityD extends Component<Props> {
           {productData.attributes
             .filter((items) => items.name === "Capacity")
             .map((items) =>
-              items.items.map(({ value }, index) => (
+              items.items.map(({ value }, index) => {
+                const defSelected =  (capacity === "" && value === defaultCapacity);
+                  const selected = capacity !== "" && value === capacity;
+                return(
                 <div
                   key={value}
                   className="productCapacity"
                   style={{
-                    border: `${
-                      capacity !== "" && value === capacity
-                        ? "2px solid red"
-                        : capacity === "" && value === defaultCapacity
-                        ? "2px solid red"
-                        : "1px solid black"
+                    backgroundColor: `${
+                      selected
+                        ? "black"
+                        : defSelected ? "black"
+                        : "white"
+                    }`,
+                    color: `${
+                      selected
+                        ? "white"
+                        :defSelected ? "white"
+                        : "black"
                     }`,
                   }}
                 >
@@ -57,7 +65,8 @@ class ProductCapacityD extends Component<Props> {
                   />
                   <span>{value}</span>
                 </div>
-              ))
+                );
+  })
             )}
         </div>
       </div>

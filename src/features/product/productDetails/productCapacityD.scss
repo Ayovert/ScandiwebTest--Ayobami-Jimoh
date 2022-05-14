@@ -1,8 +1,8 @@
-.productCapacityList{
-  .productCapacityBox{
+.productCapacityList, .productSizeList{
+  .productCapacityBox , .productSizeBox {
       display: flex;
   align-items: center;
-      .productCapacity {
+      .productCapacity , .productSize {
           border: 1px solid black;
           font-size: 20px;
           width: 50px;
@@ -27,11 +27,6 @@
             }
 
              
-
-            input:checked ~ span{
-
-              border: 1px solid red;
-            }
   
             input[type="radio"] {
               appearance: none;

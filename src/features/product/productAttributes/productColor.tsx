@@ -25,28 +25,27 @@ class ProductColor extends Component<Props> {
           {item.attributes
             .filter((items) => items.name === "Color")
             .map((items) =>
-              items.items.map(({ value }, index) => (
+              items.items.map(({ value }, index) => {
+                const selected = value === item.selectedColor;
+                return(
                 <div className="productColorBox" key={index}>
                   <div
                     className="productColor"
                     style={{
-                      backgroundColor: `${value}`,
-                      opacity: `${value === item.selectedColor ? 0.8 : 1}`,
+                      backgroundColor: `${value}`
                     }}
                   >
-                    <CheckIcon
-                      width={25}
-                      height={25}
-                      className="checkmark"
-                      style={{
-                        display: `${
-                          value === item.selectedColor ? "block" : "none"
-                        }`,
-                      }}
-                    />
+                    <span className="checkmark"
+                    style={{
+                      display: `${
+                        selected ? "block" : "none"
+                      }`,
+                    }}
+                    ></span>
                   </div>
                 </div>
-              ))
+              );
+  })
             )}
         </div>
       </>

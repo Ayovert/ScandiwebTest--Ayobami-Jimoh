@@ -28,22 +28,24 @@ class ProductColorD extends Component<Props> {
             .filter((items) => items.name === "Color")
             .map((items) =>
               items.items.map(({ value }, index) => {
+                const defSelected = color === "" && value === defaultColor;
+                const selected = color !== "" && value === color;
                 return (
                   <div className="productColorBox" key={value}>
                     <div
                       className="productColor"
                       style={{
-                        backgroundColor: `${value}`,
-                        opacity: `${
-                          value === color
-                            ? 0.8
-                            : color === defaultColor
-                            ? 0.8
-                            : 1
-                        }`,
+                        backgroundColor: `${value}`
                       }}
                     >
-                      {" "}
+                      <span
+                        className="check"
+                        style={{
+                          display: `${
+                            selected ? "block" : defSelected ? "block" : "none"
+                          }`,
+                        }}
+                      ></span>{" "}
                       <input
                         type="radio"
                         name="color"
@@ -55,20 +57,6 @@ class ProductColorD extends Component<Props> {
                         id={`color${index}`}
                         onChange={(e) => {
                           handleColorChange(e);
-                        }}
-                      />
-                      <CheckIcon
-                        width={25}
-                        height={25}
-                        className="checkmark"
-                        style={{
-                          display: `${
-                            color !== "" && value === color
-                              ? "block"
-                              : color === "" && value === defaultColor
-                              ? "block"
-                              : "none"
-                          }`,
                         }}
                       />
                     </div>

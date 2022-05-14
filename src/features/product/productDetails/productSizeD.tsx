@@ -1,7 +1,7 @@
 import { ChangeEvent, Component } from "react";
 
 import { Product } from "../../../app/model/Product";
-import "./productSizeD.scss";
+import "./productCapacityD.scss";
 
 interface Props {
   productData: Product;
@@ -40,17 +40,24 @@ class ProductSizeD extends Component<Props> {
               .filter((items) => items.name === "Size")
               .map((items) =>
                 items.items.map(({ value }, index) => {
+                  const defSelected =  (size === "" && value === defaultSize);
+                  const selected = size !== "" && value === size;
                   return (
                     <div
                       key={value}
                       className="productSize"
                       style={{
-                        border: `${
-                          size !== "" && value === size
-                            ? "2px solid red"
-                            : size === "" && value === defaultSize
-                            ? "2px solid red"
-                            : "1px solid black"
+                        backgroundColor: `${
+                          selected
+                            ? "black"
+                            : defSelected ? "black"
+                            : "white"
+                        }`,
+                        color: `${
+                          selected
+                            ? "white"
+                            :defSelected ? "white"
+                            : "black"
                         }`,
                       }}
                     >

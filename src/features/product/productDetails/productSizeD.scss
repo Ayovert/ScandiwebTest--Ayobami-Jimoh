@@ -29,11 +29,6 @@
 
        
 
-      input:checked ~ span{
-
-        border: 1px solid red;
-      }
-
       input[type="radio"] {
         appearance: none;
         background-color: #fff;

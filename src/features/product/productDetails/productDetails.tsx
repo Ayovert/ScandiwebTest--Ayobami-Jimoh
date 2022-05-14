@@ -115,7 +115,10 @@ class ProductDetails extends Component<Props, ProductState> {
                       />
                     </div>
                     <div className="productAttributes">
-                      <h3>{productData.name}</h3>
+                      <h1>{productData.brand}</h1>
+                      <p style={{
+                        fontSize:'1.5rem'
+                      }}>{productData.name}</p>
 
                       {sizeAttr > -1 && (
                         <ProductSizeD

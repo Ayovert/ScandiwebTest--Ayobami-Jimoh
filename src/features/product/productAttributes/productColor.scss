@@ -40,6 +40,7 @@
     .productColorBox {
       display: flex;
       align-items: center;
+      margin: 5px;
       .productColor {
         border: 0;
         font-size: 20px;
@@ -54,9 +55,10 @@
             box-shadow: 0px 8px 16px 0px rgba(228, 30, 30, 0.2);
         }
         .checkmark{
-          border: 1px solid red;
-          margin: 0 ;
-          padding: 2px 6px ;
+          border: 2px solid #5ECE7B;
+              margin: 5px;
+              height: 25px;
+              width: 25px;
       }
       }
       

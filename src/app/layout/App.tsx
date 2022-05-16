@@ -93,7 +93,7 @@ class App extends PureComponent<PropRedux, AppState> {
             const categoryData = data.categories as Category[];
 
             return (
-              <>
+              <div className="App">
                 <HeaderComponent
                   cart={cart}
                   categories={categoryData}
@@ -102,7 +102,7 @@ class App extends PureComponent<PropRedux, AppState> {
                   removeFromCart={removeFromCart}
                   currency={currency}
                 />
-                <div style={{ margin: "85px 155px" }}>
+                <div style={{ margin: "85px 0" }}>
                   <Switch>
                     <Route
                       exact
@@ -158,7 +158,7 @@ class App extends PureComponent<PropRedux, AppState> {
                     <Route path="*" render={() => <NotFound />} />
                   </Switch>
                 </div>
-              </>
+              </div>
             );
           }}
         </Query>

@@ -1,19 +1,29 @@
 .productDetails {
   display: flex;
   justify-content: center;
-  margin: 100px;
+ margin-right: 50px;
   font-family:'Raleway', sans-serif;
   .miniImages {
     display: flex;
     flex-direction: column;
     width: 179px;
     flex: 1;
+    .miniImagesItem{
+      margin: 1rem 0;
+      height: 5.5rem;
+      width: 5.5rem;
+      padding: 0.2rem;
+    }
   }
 
   .mainImage {
     display: flex;
     justify-content: center;
     flex: 6;
+    img{
+      height: auto;
+      width: auto;
+    }
   }
 
   .productAttributes {
@@ -47,7 +57,7 @@
 
     .productDescription{
       height: 250px;
-      overflow: auto;
+    //  overflow: auto;
     }
   }
 }

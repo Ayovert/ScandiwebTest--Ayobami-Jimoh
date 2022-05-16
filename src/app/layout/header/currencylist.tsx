@@ -2,6 +2,7 @@ import { Query, QueryResult } from "@apollo/react-components";
 import { PureComponent, ReactNode } from "react";
 import { GET_CURRENCIES } from "../../api/queries";
 import { Currency } from "../../model/Product";
+import { ReactComponent as ArrowIcon } from "../../../images/arrowR.svg";
 import "./header.scss";
 
 type Props = {
@@ -44,18 +45,12 @@ class CurrencyList extends PureComponent<Props> {
                 <button type="button" className="currencyButton">
                   <span>{currencyData[currencyNum].symbol}</span>
                   <span
-                    className="currencyArrow"
-                    style={{
-                      display: "inline-block",
-                      transform: "rotateX(180deg)",
-                      WebkitTransform: "rotateX(180deg)",
-                      fontSize: 20,
-                      position: "relative",
-                      bottom: "10%",
-                      margin: 5,
-                    }}
+                   className="currencyArrow"
+                   
                   >
-                    ^
+                    <ArrowIcon height={12} width={12}
+                     
+                    />
                   </span>
                 </button>
 

@@ -11,8 +11,8 @@ import ProductAttributeComponent from "./productAttributeComp";
 import {
   attributeExist,
   getDefaultAttribute,
-  removeTags,
 } from "../../../app/util/util";
+import parse from 'html-react-parser';
 
 type ProductState = {
   id: string;
@@ -20,6 +20,7 @@ type ProductState = {
   color: string;
   size: string;
   capacity: string;
+  imageIndex: number;
 };
 
 interface Props extends RouteComponentProps {
@@ -42,6 +43,7 @@ class ProductDetails extends Component<Props, ProductState> {
     color: "",
     size: "",
     capacity: "",
+    imageIndex:0
   };
 
   componentDidMount() {
@@ -52,6 +54,20 @@ class ProductDetails extends Component<Props, ProductState> {
     this.props.handleCurrency();
 
     this.setState({ currency: this.props.currency });
+  }
+
+  changeImage(index:number){
+    this.setState({imageIndex: index});
+  }
+
+
+  htmlDecode(input : string){
+    console.log(input);
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    console.log(e);
+    console.log(e.childNodes.length);
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
 
   handleAttributeChange(event: ChangeEvent<HTMLInputElement>) {
@@ -66,7 +82,7 @@ class ProductDetails extends Component<Props, ProductState> {
   }
 
   render() {
-    const { id, color, size, capacity } = this.state;
+    const { id, color, size, capacity, imageIndex } = this.state;
 
     const { addCart, currency } = this.props;
 
@@ -97,18 +113,21 @@ class ProductDetails extends Component<Props, ProductState> {
                     <div className="miniImages">
                       {productData.gallery.map((value, index) => (
                         <img
+                        className="miniImagesItem"
                           key={index}
                           alt="product-mini"
                           src={value}
-                          height={87}
-                          width={87}
+                          onClick={() => {this.changeImage(index)}}
+                          style={{
+                            border: `${imageIndex === index ? '3px solid #5ece7b' : 'none'}`
+                          }}
                         />
                       ))}
                     </div>
                     <div className="mainImage">
                       <img
                         alt="product-main"
-                        src={productData.gallery[0]}
+                        src={productData.gallery[imageIndex]}
                         height={560}
                       />
                     </div>
@@ -213,7 +232,7 @@ class ProductDetails extends Component<Props, ProductState> {
                       </div>
 
                       <div className="productDescription">
-                        {removeTags(productData.description)}
+                       {parse(productData.description)}
                       </div>
                     </div>
                   </div>

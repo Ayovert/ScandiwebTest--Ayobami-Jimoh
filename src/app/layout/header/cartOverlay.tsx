@@ -4,9 +4,7 @@ import { Cart, CartParams } from "../../model/Cart";
 
 import { ReactComponent as CartIcon } from "../../../images/cart.svg";
 import { CartToCartParams, getSubtotal } from "../../util/util";
-import ProductSize from "../../../features/product/productAttributes/productSize";
-import ProductColor from "../../../features/product/productAttributes/productColor";
-import ProductCapacity from "../../../features/product/productAttributes/productCapacity";
+import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComp";
 
 interface Props {
   cart: Cart | null;
@@ -68,45 +66,36 @@ class CartOverlay extends PureComponent<Props> {
                 return (
                   <div key={index} className="cartItems">
                     <div className="productAttributes">
-                      <p>{item.brand}</p>
-                      <p
-                        style={{
-                          margin: "0",
-                        }}
-                      >
+                      <p className="productBrand">{item.brand}</p>
+                      <p className="productName">
                         {item.name}
                       </p>
 
                       {/*price */}
 
                       <span
-                        style={{
-                          marginTop: 10,
-                          marginBottom: 20,
-                          fontSize: "1.1rem",
-                        }}
-                      >
+                      className="productPrice">
                         {item.prices[currency].currency.symbol}
-                        <span
-                          style={{
-                            fontSize: "1.5rem",
-                            fontWeight: 500,
-                            margin: "0 5px",
-                          }}
-                        >
+                        <span>
                           {item.prices[currency].amount}
                         </span>
-                        ({item.prices[currency].currency.label})
+                       {/* ({item.prices[currency].currency.label})*/}
                       </span>
 
                       {/**price*/}
                       {/*Size */}
                       {(sizeAttr !== null || sizeAttr !== undefined) &&
                         sizeAttr > -1 && (
-                          <ProductSize
-                            item={item}
-                            className="productSizeListX"
-                          />
+                          <ProductAttributeComponent
+                          cartItems={item}
+                          attribute={item.selectedSize!}
+                        
+                          defaultAttribute={""}
+                          classname="productSize"
+                          alt="X"
+                          input={false}
+                          name="Size"
+                        />
                         )}
 
                       {/* Size */}
@@ -115,10 +104,16 @@ class CartOverlay extends PureComponent<Props> {
 
                       {(colorAttr !== null || colorAttr !== undefined) &&
                         colorAttr > -1 && (
-                          <ProductColor
-                            item={item}
-                            className="productColorListX"
-                          />
+                          <ProductAttributeComponent
+                        cartItems={item}
+                        attribute={item.selectedColor!}
+                      
+                        defaultAttribute={""}
+                        classname="productColor"
+                        alt="X"
+                        input={false}
+                        name="Color"
+                      />
                         )}
 
                       {/**Color */}
@@ -126,10 +121,15 @@ class CartOverlay extends PureComponent<Props> {
                       {/**Capacity */}
                       {(capacityAttr !== null || capacityAttr !== undefined) &&
                         capacityAttr > -1 && (
-                          <ProductCapacity
-                            item={item}
-                            className="productCapacityListX"
-                          />
+                          <ProductAttributeComponent
+                        cartItems={item}
+                        attribute={item.selectedCapacity!}
+                        defaultAttribute={""}
+                        classname="productCapacity"
+                        alt="X"
+                        input={false}
+                        name="Capacity"
+                      />
                         )}
 
                       {/**Capacity */}
@@ -142,21 +142,13 @@ class CartOverlay extends PureComponent<Props> {
                           addCart(CartToCartParams(item));
                         }}
                       >
-                        <span
-                          style={{
-                            fontSize: "2rem",
-                          }}
-                        >
+                        <span>
                           +
                         </span>
                       </div>
 
                       <span
-                        style={{
-                          padding: "8px 15px",
-                          fontSize: 20,
-                        }}
-                      >
+                      className="cartCount">
                         {item.quantity}
                       </span>
 
@@ -164,20 +156,20 @@ class CartOverlay extends PureComponent<Props> {
                         className="cartControlItem"
                         onClick={() => removeFromCart(CartToCartParams(item))}
                       >
-                        <span
-                          style={{
-                            fontSize: "2rem",
-                          }}
-                        >
+                        <span>
                           -
                         </span>
                       </div>
                     </div>
 
                     <div
-                      className="cartImage"
-                      style={{ backgroundImage: `url(${item.gallery[0]})` }}
-                    ></div>
+                      className="cartImageDiv"
+                    >
+                      <div className="cartImage"
+                      style={{ backgroundImage: `url(${item.gallery[0]})` }}>
+
+                    </div>
+                  </div>
                   </div>
                 );
               })

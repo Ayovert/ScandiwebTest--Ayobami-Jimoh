@@ -4,12 +4,10 @@ import { ChangeEvent, Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { GET_PRODUCT } from "../../../app/api/queries";
 import "./productDetails.scss";
-import { DefaultAttribute, Product } from "../../../app/model/Product";
+import { Product } from "../../../app/model/Product";
 
 import { CartParams } from "../../../app/model/Cart";
-import ProductSizeD from "./productSizeD";
-import ProductCapacityD from "./productCapacityD";
-import ProductColorD from "./productColorD";
+import ProductAttributeComponent from "./productAttributeComp";
 import {
   attributeExist,
   getDefaultAttribute,
@@ -121,29 +119,39 @@ class ProductDetails extends Component<Props, ProductState> {
                       }}>{productData.name}</p>
 
                       {sizeAttr > -1 && (
-                        <ProductSizeD
+                        <ProductAttributeComponent
                           productData={productData}
-                          size={size}
-                          handleSizeChange={this.handleAttributeChange}
-                          defaultSize={defaultAttr.defaultSize}
+                          attribute={size}
+                          handleColorChange={this.handleAttributeChange}
+                          defaultAttribute={defaultAttr.defaultSize}
+                          classname="productSize"
+                          input={true}
+                          name="Size"
                         />
                       )}
 
                       {colorAttr > -1 && (
-                        <ProductColorD
+                        <ProductAttributeComponent
                           productData={productData}
-                          defaultColor={defaultAttr.defaultColor}
+                          defaultAttribute={defaultAttr.defaultColor}
                           handleColorChange={this.handleAttributeChange}
-                          color={color}
+                          attribute={color}
+                          classname="productColor"
+                          input={true}
+                          name="Color"
                         />
                       )}
 
                       {capacityAttr > -1 && (
-                        <ProductCapacityD
+                        <ProductAttributeComponent
                           productData={productData}
-                          capacity={capacity}
-                          handleCapacityChange={this.handleAttributeChange}
-                          defaultCapacity={defaultAttr.defaultCapacity}
+                          attribute={capacity}
+                          handleColorChange={this.handleAttributeChange}
+                          defaultAttribute={defaultAttr.defaultCapacity}
+                          classname="productCapacity"
+                          input={true}
+                          name="Capacity"
+
                         />
                       )}
 

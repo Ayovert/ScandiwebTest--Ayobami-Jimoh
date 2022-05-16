@@ -9,9 +9,8 @@ import {
   getQuantity,
   getSubtotal,
 } from "../../app/util/util";
-import ProductCapacity from "../product/productAttributes/productCapacity";
-import ProductColor from "../product/productAttributes/productColor";
-import ProductSize from "../product/productAttributes/productSize";
+import ProductAttributeComponent from "../product/productDetails/productAttributeComp";
+import { ReactComponent as ArrowIcon } from "../../images/arrowRbg.svg";
 
 interface Props {
   cart: Cart | null;
@@ -19,12 +18,67 @@ interface Props {
   addCart: (cartParams: CartParams) => void;
   removeFromCart: (cartParams: CartParams) => void;
 }
-class CartPage extends PureComponent<Props> {
+
+interface SlideState {
+  galleryIndex: number;
+  slideIndex: number;
+}
+
+type CartState = {
+  slideNumber?: SlideState[];
+  slideNumberX: number[];
+};
+class CartPage extends PureComponent<Props, CartState> {
+  state: CartState = {
+    slideNumber: [{ galleryIndex: 0, slideIndex: 0 }],
+    slideNumberX: new Array(this.props.cart?.items.length).fill(0),
+  };
+
+  /* componentDidMount(){
+    this.setState
+  }*/
+
+  SlideShow(galleryLength: number, slideNum: number, index: number) {
+    console.log("changeSlide");
+    const { slideNumberX } = this.state;
+
+    if (slideNumberX[index] !== undefined) {
+      let a = this.state.slideNumberX.slice(); //creates the clone of the state
+
+      let currentSLide = a[index];
+
+      const slideIndex = currentSLide + slideNum;
+
+      let indexSet = a[index];
+
+      console.log(indexSet);
+
+      if (slideIndex > galleryLength - 1) {
+        indexSet = 0;
+      } else if (slideIndex < 0) {
+        indexSet = galleryLength - 1;
+      } else {
+        indexSet = slideIndex;
+      }
+
+      a[index] = indexSet;
+
+      this.setState({ slideNumberX: a }, () => {
+        console.log(slideNumberX);
+      });
+    } else {
+      console.log("error on changing slide");
+    }
+  }
+
   render(): ReactNode {
+    const { slideNumberX } = this.state;
     const { cart, currency, addCart, removeFromCart } = this.props;
     const subtotal = getSubtotal(cart, currency);
     const tax = calculateTax(subtotal);
     const quantity = getQuantity(cart);
+
+
 
     return (
       <>
@@ -49,39 +103,28 @@ class CartPage extends PureComponent<Props> {
                 <div key={index}>
                   <div className="cartItems">
                     <div className="productAttributes">
-                      <p
-                        style={{
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.brand}
-                      </p>
-                      <p>{item.name}</p>
+                      <p className="productBrand">{item.brand}</p>
+                      <p className="productName">{item.name}</p>
 
                       {/*price*/}
-                      <span
-                        style={{
-                          marginTop: 10,
-                          marginBottom: 20,
-                        }}
-                      >
+                      <span className="productPrice">
                         {item.prices[currency].currency.symbol}
-                        <span
-                          style={{
-                            fontSize: 24,
-                            fontWeight: 500,
-                          }}
-                        >
-                          {item.prices[currency].amount}
-                        </span>
-                        ({item.prices[currency].currency.label})
+                        <span>{item.prices[currency].amount}</span>(
+                        {item.prices[currency].currency.label})
                       </span>
 
                       {/**price*/}
 
                       {/**Size */}
                       {sizeAttr > -1 && (
-                        <ProductSize item={item} className="productSizeList" />
+                        <ProductAttributeComponent
+                          cartItems={item}
+                          attribute={item.selectedSize!}
+                          defaultAttribute={""}
+                          classname="productSize"
+                          input={false}
+                          name="Size"
+                        />
                       )}
 
                       {/**Size */}
@@ -89,9 +132,13 @@ class CartPage extends PureComponent<Props> {
                       {/**Color */}
 
                       {colorAttr > -1 && (
-                        <ProductColor
-                          item={item}
-                          className="productColorList"
+                        <ProductAttributeComponent
+                          cartItems={item}
+                          attribute={item.selectedColor!}
+                          defaultAttribute={""}
+                          classname="productColor"
+                          input={false}
+                          name="Color"
                         />
                       )}
 
@@ -99,9 +146,13 @@ class CartPage extends PureComponent<Props> {
 
                       {/**Capacity */}
                       {capacityAttr > -1 && (
-                        <ProductCapacity
-                          item={item}
-                          className="productCapacityList"
+                        <ProductAttributeComponent
+                          cartItems={item}
+                          attribute={item.selectedCapacity!}
+                          defaultAttribute={""}
+                          classname="productCapacity"
+                          input={false}
+                          name="Capacity"
                         />
                       )}
 
@@ -118,14 +169,7 @@ class CartPage extends PureComponent<Props> {
                         <span>+</span>
                       </div>
 
-                      <span
-                        style={{
-                          padding: "8px 15px",
-                          fontSize: 20,
-                        }}
-                      >
-                        {item.quantity}
-                      </span>
+                      <span className="cartCount">{item.quantity}</span>
 
                       <div
                         className="cartControlItem"
@@ -135,10 +179,51 @@ class CartPage extends PureComponent<Props> {
                       </div>
                     </div>
 
-                    <div
-                      className="cartImage"
-                      style={{ backgroundImage: `url(${item.gallery[0]})` }}
-                    ></div>
+                    <div className="cartImageDiv">
+                      <div
+                        className="cartImage"
+                        style={{
+                          backgroundImage: `url(${
+                            item.gallery[slideNumberX[index]]
+                          })`,
+                        }}
+                      >
+                        <div
+                          className="cartImageArrows"
+                          style={{
+                            display: "flex",
+                            position: "absolute",
+                            bottom: 0,
+                            right: 0,
+                          }}
+                        >
+                          <ArrowIcon
+                            height={30}
+                            style={{
+                              msTransform: "rotate(180deg)" /* IE 9 */,
+                              transform: "rotate(180deg)",
+                              margin: "0 5px",
+                              backgroundColor: "white",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              this.SlideShow(item.gallery.length, -1, index);
+                            }}
+                          />
+                          <ArrowIcon
+                            height={30}
+                            style={{
+                              margin: "0 5px",
+                              backgroundColor: "white",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              this.SlideShow(item.gallery.length, 1, index);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <hr />

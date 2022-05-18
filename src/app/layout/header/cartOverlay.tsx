@@ -24,6 +24,8 @@ class CartOverlay extends PureComponent<Props> {
     let symbol = "";
     let label = "";
 
+    console.log(cart);
+
     if (cart !== null && cart?.items.length > 0) {
       symbol = cart?.items[0].prices[currency].currency.symbol;
 
@@ -48,7 +50,8 @@ class CartOverlay extends PureComponent<Props> {
             </p>
 
             {/**cart items */}
-            {cart !== null && cart.items.length > 0 ? (
+            {cart !== null &&
+              cart.items.length > 0 &&
               cart.items.map((item, index) => {
                 const sizeAttr = item.attributes.findIndex(
                   (items) => items.name === "Size"
@@ -155,32 +158,39 @@ class CartOverlay extends PureComponent<Props> {
                     </div>
                   </div>
                 );
-              })
-            ) : (
-              <h1>Cart Empty</h1>
-            )}
+              })}
 
             {/**cart items */}
 
-            <div className="cartSummary">
-              <span className="cartSummaryTitle">Total</span>
-              <span className="cartSummaryData">
-                <span>{symbol} </span>
-                <span className="cartSubtotal">{subtotal.toFixed(2)}</span>
+            {cart !== null && cart.items.length > 0 && (
+              <>
+                <div className="cartSummary">
+                  <span className="cartSummaryTitle">Total</span>
+                  <span className="cartSummaryData">
+                    <span>{symbol} </span>
+                    <span className="cartSubtotal">{subtotal.toFixed(2)}</span>
 
-                <span>({label})</span>
-              </span>
-            </div>
+                    <span>({label})</span>
+                  </span>
+                </div>
 
-            <div className="cartOverlayButton">
-              <Link to="/cart" className="viewCart">
-                View Cart
-              </Link>
+                <div className="cartOverlayButton">
+                  <Link to="/cart" className="viewCart">
+                    View Cart
+                  </Link>
 
-              <Link to="" className="checkoutCart">
-                Checkout
-              </Link>
-            </div>
+                  <Link to="" className="checkoutCart">
+                    Checkout
+                  </Link>
+                </div>
+              </>
+            )}
+            {cart === null ||
+              (cart.items.length < 1 && (
+                <div>
+                  <h1>Cart Empty</h1>
+                </div>
+              ))}
           </div>
         </div>
         <div className="backdrop"></div>

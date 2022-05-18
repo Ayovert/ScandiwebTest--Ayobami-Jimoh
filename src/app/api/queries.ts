@@ -9,68 +9,65 @@ export const EXCHANGE_RATES = gql`
   }
 `;
 
-
 export const GET_CATEGORY = gql`
-query category($input: CategoryInput!) 
-{
-  category(input : $input){
-    name
-    products {
+  query category($input: CategoryInput!) {
+    category(input: $input) {
+      name
+      products {
+        id
+        name
+        prices {
+          amount
+          currency {
+            symbol
+            label
+          }
+        }
+        category
+        description
+        gallery
+        attributes {
+          name
+          type
+
+          items {
+            displayValue
+            value
+          }
+        }
+        inStock
+        brand
+      }
+    }
+  }
+`;
+
+export const GET_CATEGORIES = gql`
+  query categories {
+    categories {
+      name
+    }
+  }
+`;
+
+export const GET_CURRENCIES = gql`
+  query categories {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
+
+export const GET_PRODUCT = gql`
+  query product($id: String!) {
+    product(id: $id) {
       id
       name
       prices {
         amount
         currency {
-          symbol,
-          label
-        }
-      }
-      category
-      description
-      gallery
-      attributes {
-        name
-        type
-
-        items {
-          displayValue
-          value
-        }
-      }
-      inStock
-      brand
-    }
-  }
-   
-  }
-`;
-
-export const GET_CATEGORIES = gql`
-query categories{
-  categories{
-    name
-  }
-  }
-`;
-
-export const GET_CURRENCIES = gql`
-query categories{
-  currencies{
-    label,
-    symbol
-  }
-  }
-`;
-
-export const GET_PRODUCT = gql`
-query product($id: String!){
-  product(id: $id){
-     id
-    name
-      prices {
-        amount
-        currency {
-          symbol,
+          symbol
           label
         }
       }
@@ -89,6 +86,6 @@ query product($id: String!){
       }
       inStock
       brand
+    }
   }
-}
 `;

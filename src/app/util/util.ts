@@ -104,3 +104,26 @@ export function attributeExist(productData: Product) {
 
   return attr;
 }
+
+export function productExistInCart(
+  cart: Cart | null,
+  productId: string,
+  capacity: string,
+  color: string,
+  size: string
+) {
+  let productInCart = -1;
+
+  if (cart !== null) {
+    productInCart = cart.items.findIndex(
+      (x) =>
+        x.productId === productId &&
+        x.selectedCapacity === capacity &&
+        x.selectedColor === color &&
+        x.selectedSize === size
+    );
+    return productInCart;
+  }
+
+  return productInCart;
+}

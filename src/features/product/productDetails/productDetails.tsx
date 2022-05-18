@@ -6,13 +6,15 @@ import { GET_PRODUCT } from "../../../app/api/queries";
 import "./productDetails.scss";
 import { Product } from "../../../app/model/Product";
 
-import { CartParams } from "../../../app/model/Cart";
+import { Cart, CartParams } from "../../../app/model/Cart";
 import ProductAttributeComponent from "./productAttributeComp";
 import {
   attributeExist,
+  CartToCartParams,
   getDefaultAttribute,
+  productExistInCart,
 } from "../../../app/util/util";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 type ProductState = {
   id: string;
@@ -27,6 +29,8 @@ interface Props extends RouteComponentProps {
   currency: number;
   handleCurrency: () => void;
   addCart: (cartParams: CartParams) => void;
+  removeFromCart: (cartParams: CartParams) => void;
+  cart: Cart | null;
 }
 
 class ProductDetails extends Component<Props, ProductState> {
@@ -37,13 +41,14 @@ class ProductDetails extends Component<Props, ProductState> {
 
     this.handleAttributeChange = this.handleAttributeChange.bind(this);
   }
+
   state: ProductState = {
     id: "",
     currency: 0,
     color: "",
     size: "",
     capacity: "",
-    imageIndex:0
+    imageIndex: 0,
   };
 
   componentDidMount() {
@@ -54,20 +59,6 @@ class ProductDetails extends Component<Props, ProductState> {
     this.props.handleCurrency();
 
     this.setState({ currency: this.props.currency });
-  }
-
-  changeImage(index:number){
-    this.setState({imageIndex: index});
-  }
-
-
-  htmlDecode(input : string){
-    console.log(input);
-    var e = document.createElement('div');
-    e.innerHTML = input;
-    console.log(e);
-    console.log(e.childNodes.length);
-    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
 
   handleAttributeChange(event: ChangeEvent<HTMLInputElement>) {
@@ -84,7 +75,7 @@ class ProductDetails extends Component<Props, ProductState> {
   render() {
     const { id, color, size, capacity, imageIndex } = this.state;
 
-    const { addCart, currency } = this.props;
+    const { addCart, currency, cart, removeFromCart } = this.props;
 
     if (id !== "") {
       return (
@@ -107,19 +98,37 @@ class ProductDetails extends Component<Props, ProductState> {
 
               const { sizeAttr, capacityAttr, colorAttr } = attrExist;
 
+              const theColor = color === "" ? defaultColor : color;
+              const theCapacity = capacity === "" ? defaultCapacity : capacity;
+              const theSize = size === "" ? defaultSize : size;
+
+              const productInCart = productExistInCart(
+                cart,
+                productData.id,
+                theCapacity,
+                theColor,
+                theSize
+              );
+
               return (
                 <>
                   <div className="productDetails">
                     <div className="miniImages">
                       {productData.gallery.map((value, index) => (
                         <img
-                        className="miniImagesItem"
+                          className="miniImagesItem"
                           key={index}
                           alt="product-mini"
                           src={value}
-                          onClick={() => {this.changeImage(index)}}
+                          onClick={() => {
+                            this.setState({ imageIndex: index });
+                          }}
                           style={{
-                            border: `${imageIndex === index ? '3px solid #5ece7b' : 'none'}`
+                            border: `${
+                              imageIndex === index
+                                ? "3px solid #5ece7b"
+                                : "none"
+                            }`,
                           }}
                         />
                       ))}
@@ -128,20 +137,17 @@ class ProductDetails extends Component<Props, ProductState> {
                       <img
                         alt="product-main"
                         src={productData.gallery[imageIndex]}
-                        height={560}
                       />
                     </div>
                     <div className="productAttributes">
                       <h1>{productData.brand}</h1>
-                      <p style={{
-                        fontSize:'1.5rem'
-                      }}>{productData.name}</p>
+                      <p className="productName">{productData.name}</p>
 
                       {sizeAttr > -1 && (
                         <ProductAttributeComponent
                           productData={productData}
                           attribute={size}
-                          handleColorChange={this.handleAttributeChange}
+                          handleAttributeChange={this.handleAttributeChange}
                           defaultAttribute={defaultAttr.defaultSize}
                           classname="productSize"
                           input={true}
@@ -153,7 +159,7 @@ class ProductDetails extends Component<Props, ProductState> {
                         <ProductAttributeComponent
                           productData={productData}
                           defaultAttribute={defaultAttr.defaultColor}
-                          handleColorChange={this.handleAttributeChange}
+                          handleAttributeChange={this.handleAttributeChange}
                           attribute={color}
                           classname="productColor"
                           input={true}
@@ -165,74 +171,84 @@ class ProductDetails extends Component<Props, ProductState> {
                         <ProductAttributeComponent
                           productData={productData}
                           attribute={capacity}
-                          handleColorChange={this.handleAttributeChange}
+                          handleAttributeChange={this.handleAttributeChange}
                           defaultAttribute={defaultAttr.defaultCapacity}
                           classname="productCapacity"
                           input={true}
                           name="Capacity"
-
                         />
                       )}
 
                       <div className="productPriceBox">
-                        <h4
-                          style={{
-                            fontSize: 18,
-                            marginBottom: 10,
-                          }}
-                        >
-                          PRICE:
-                        </h4>
+                        <h4 className="cartQTitle">PRICE:</h4>
 
-                        <span
-                          style={{
-                            marginRight: 10,
-                            fontSize: 22,
-                            fontWeight: "bold",
-                          }}
-                        >
+                        <span>
                           {productData.prices[currency].currency.symbol}
-                        </span>
 
-                        <span
-                          style={{
-                            fontSize: 24,
-                            fontWeight: "bold",
-                          }}
-                        >
                           {productData.prices[0].amount}
                         </span>
-
-                        <span
-                          style={{
-                            marginLeft: 10,
-                          }}
-                        >
-                          ({productData.prices[currency].currency.label})
-                        </span>
                       </div>
 
-                      <div className="AddCartButton">
-                        <button
-                          type="submit"
-                          style={{ backgroundColor: "#5ECE7B", color: "white" }}
-                          onClick={() => {
-                            addCart({
-                              product: productData,
-                              selectedColor:
-                                color === "" ? defaultColor : color,
-                              selectedCapacity:
-                                capacity === "" ? defaultCapacity : capacity,
-                              selectedSize: size === "" ? defaultSize : size,
-                            });
-                          }}
-                        >
-                          Add to Cart
-                        </button>
-                      </div>
+                      {productData.inStock ? (
+                        productInCart < 0 ? (
+                          <div className="AddCartButton">
+                            <button
+                              type="submit"
+                              onClick={() => {
+                                addCart({
+                                  product: productData,
+                                  selectedColor: theColor,
+                                  selectedCapacity: theCapacity,
+                                  selectedSize: theSize,
+                                });
+                              }}
+                            >
+                              Add to Cart
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="cartQ">
+                            <h4 className="cartQTitle">QUANTITY </h4>
+
+                            <div className="cartControls">
+                              <div
+                                className="cartControlItem"
+                                onClick={() => {
+                                  addCart(
+                                    CartToCartParams(cart!.items[productInCart])
+                                  );
+                                }}
+                              >
+                                <span>+</span>
+                              </div>
+
+                              <span className="cartCount">
+                                {cart!.items[productInCart].quantity}
+                              </span>
+
+                              <div
+                                className="cartControlItem"
+                                onClick={() =>
+                                  removeFromCart(
+                                    CartToCartParams(cart!.items[productInCart])
+                                  )
+                                }
+                              >
+                                <span>-</span>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      ) : (
+                        <div className="cartQ">
+                          <h4 className="cartQTitle">QUANTITY </h4>
+
+                          <p className="outOfStock">OUT OF STOCK </p>
+                        </div>
+                      )}
 
                       <div className="productDescription">
-                       {parse(productData.description)}
+                        {parse(productData.description)}
                       </div>
                     </div>
                   </div>

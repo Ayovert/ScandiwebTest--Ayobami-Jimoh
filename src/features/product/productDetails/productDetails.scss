@@ -1,14 +1,16 @@
 .productDetails {
   display: flex;
   justify-content: center;
- margin-right: 50px;
-  font-family:'Raleway', sans-serif;
+  //margin-right: 150px;
+  font-family: "Raleway", sans-serif;
   .miniImages {
     display: flex;
     flex-direction: column;
-    width: 179px;
+    //width: 179px;
     flex: 1;
-    .miniImagesItem{
+    margin-right: 30px;
+    align-items: center;
+    .miniImagesItem {
       margin: 1rem 0;
       height: 5.5rem;
       width: 5.5rem;
@@ -18,26 +20,95 @@
 
   .mainImage {
     display: flex;
-    justify-content: center;
-    flex: 6;
-    img{
-      height: auto;
-      width: auto;
+    //justify-content: center;
+    flex: 4;
+    margin-left: 20px;
+    margin-right: 40px;
+    img {
+      height: 600px;
     }
   }
 
   .productAttributes {
-    flex: 2;
-    
+    flex: 3;
+    margin-left: 40px;
+    .productName {
+      font-size: 1.5rem;
+    }
 
-    
-    
+    .attributeTitle {
+      margin: 0;
+      margin-top: 0.4rem;
+      font-size: 1rem;
+      font-weight: bolder;
+    }
 
+    .productPriceBox {
+      margin: 10px 0;
+      .cartQTitle {
+        margin: 5px 0;
+        margin-top: 0.4rem;
+        font-size: 1rem;
+        font-weight: bolder;
+      }
+      span {
+        margin: 10px 0;
+        font-size: 22px;
+        font-weight: bold;
+      }
+    }
+
+    .cartQ {
+      margin: 20px 0;
+      .cartQTitle {
+        margin: 0;
+        margin-top: 0.4rem;
+        font-size: 1rem;
+        font-weight: bolder;
+      }
+
+      .outOfStock {
+        padding: 0 20px;
+        font-weight: 500;
+        color: red;
+      }
+
+      .cartControls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 50%;
+        .cartCount {
+          padding: 0.5rem 1rem;
+          font-size: 1.5rem;
+        }
+        .cartControlItem {
+          cursor: pointer;
+          border: 2px solid black;
+          //font-size: 20px;
+          width: 40px;
+          height: 40px;
+          /* text-align: center; */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          span {
+            font-size: 2rem;
+          }
+        }
+      }
+      span {
+        margin: 10px 0;
+        font-size: 22px;
+        font-weight: bold;
+      }
+    }
     .AddCartButton {
       display: flex;
       flex-direction: row;
       padding: 20px 0 20px 0;
-      width: 100%;
+      width: 55%;
       button {
         background-color: inherit;
         border: none;
@@ -52,12 +123,16 @@
         cursor: pointer;
         width: -webkit-fill-available;
         width: 100%;
+        background-color: #5ece7b;
+        color: white;
       }
     }
 
-    .productDescription{
-      height: 250px;
-    //  overflow: auto;
+    .productDescription {
+      div > ul > li {
+        padding: 15px 0;
+      }
+      //  overflow: auto;
     }
   }
 }

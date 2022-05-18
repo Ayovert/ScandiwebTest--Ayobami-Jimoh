@@ -78,11 +78,9 @@ class CartPage extends PureComponent<Props, CartState> {
     const tax = calculateTax(subtotal);
     const quantity = getQuantity(cart);
 
-
-
     return (
       <>
-        <h1 style={{ padding: "0 40px" }}>My Cart</h1>
+        <h1>My Cart</h1>
         <div className="cartPage">
           {cart !== null &&
             cart.items &&
@@ -188,35 +186,15 @@ class CartPage extends PureComponent<Props, CartState> {
                           })`,
                         }}
                       >
-                        <div
-                          className="cartImageArrows"
-                          style={{
-                            display: "flex",
-                            position: "absolute",
-                            bottom: 0,
-                            right: 0,
-                          }}
-                        >
+                        <div className="cartImageArrows">
                           <ArrowIcon
-                            height={30}
-                            style={{
-                              msTransform: "rotate(180deg)" /* IE 9 */,
-                              transform: "rotate(180deg)",
-                              margin: "0 5px",
-                              backgroundColor: "white",
-                              cursor: "pointer",
-                            }}
+                            className="prev arrowIcon"
                             onClick={() => {
                               this.SlideShow(item.gallery.length, -1, index);
                             }}
                           />
                           <ArrowIcon
-                            height={30}
-                            style={{
-                              margin: "0 5px",
-                              backgroundColor: "white",
-                              cursor: "pointer",
-                            }}
+                            className="arrowIcon"
                             onClick={() => {
                               this.SlideShow(item.gallery.length, 1, index);
                             }}
@@ -245,15 +223,7 @@ class CartPage extends PureComponent<Props, CartState> {
           </div>
 
           <div className="cartOverlayButton">
-            <Link
-              to=""
-              style={{
-                textDecoration: "none",
-                backgroundColor: "#5ECE7B",
-                color: "white",
-              }}
-              className="viewCart"
-            >
+            <Link to="" className="viewCart">
               Checkout
             </Link>
           </div>

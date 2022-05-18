@@ -33,14 +33,11 @@ class CartOverlay extends PureComponent<Props> {
     return (
       <>
         <div className="cartOverlay">
-          <span
-            className="cartButton"
-            style={{
-              
-            }}
-          >
+          <span className="cartButton">
             {cartQuantity > 0 && (
-              <span className="cartCount"><span>{cartQuantity}</span> </span>
+              <span className="cartCount">
+                <span>{cartQuantity}</span>{" "}
+              </span>
             )}
             <CartIcon height={25} width={25} />
           </span>
@@ -169,31 +166,18 @@ class CartOverlay extends PureComponent<Props> {
               <span className="cartSummaryTitle">Total</span>
               <span className="cartSummaryData">
                 <span>{symbol} </span>
-                <span
-                  style={{
-                    fontSize: "1.1rem",
-                    margin: "0 5px",
-                  }}
-                >
-                  {subtotal.toFixed(2)}
-                </span>
+                <span className="cartSubtotal">{subtotal.toFixed(2)}</span>
 
                 <span>({label})</span>
               </span>
             </div>
 
             <div className="cartOverlayButton">
-              <Link
-                to="/cart"
-                className="viewCart"
-              >
+              <Link to="/cart" className="viewCart">
                 View Cart
               </Link>
 
-              <Link
-                to=""
-                className="checkoutCart"
-              >
+              <Link to="" className="checkoutCart">
                 Checkout
               </Link>
             </div>

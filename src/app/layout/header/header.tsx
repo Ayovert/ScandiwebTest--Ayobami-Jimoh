@@ -6,8 +6,8 @@ import "./header.scss";
 import { ReactComponent as CloudIcon } from "../../../images/clouds3.svg";
 import { Cart, CartParams } from "../../model/Cart";
 import { PureComponent, ReactNode } from "react";
-import { Category} from "../../model/Product";
-
+import { Category } from "../../model/Product";
+import { getQuantity } from "../../util/util";
 
 interface Props {
   cart: Cart | null;
@@ -28,8 +28,7 @@ class HeaderComponent extends PureComponent<Props> {
       categories,
     } = this.props;
 
-    const cartQuantity =
-      cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+    const cartQuantity = getQuantity(cart);
 
     return (
       <header className="navHeader" id="section-1">
@@ -49,12 +48,7 @@ class HeaderComponent extends PureComponent<Props> {
           </nav>
 
           <div className="homeHeader">
-            <NavLink
-              to="/"
-              style={{
-                textDecoration: "none",
-              }}
-            >
+            <NavLink to="/">
               <CloudIcon className="cloudLogo" width={45} height={45} />
             </NavLink>
           </div>
@@ -64,21 +58,15 @@ class HeaderComponent extends PureComponent<Props> {
               currencyActive={currency}
             />
 
-          
-              <CartOverlay
-                cart={cart}
-                addCart={addCart}
-                removeFromCart={removeFromCart}
-                currency={currency}
-                cartQuantity={cartQuantity}
-              />
-
-
-
-            
+            <CartOverlay
+              cart={cart}
+              addCart={addCart}
+              removeFromCart={removeFromCart}
+              currency={currency}
+              cartQuantity={cartQuantity}
+            />
           </div>
         </div>
-       
       </header>
     );
   }

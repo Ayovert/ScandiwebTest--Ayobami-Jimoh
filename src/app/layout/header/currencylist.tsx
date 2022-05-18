@@ -44,24 +44,14 @@ class CurrencyList extends PureComponent<Props> {
               <div className="currencyDiv">
                 <button type="button" className="currencyButton">
                   <span>{currencyData[currencyNum].symbol}</span>
-                  <span
-                   className="currencyArrow"
-                   
-                  >
-                    <ArrowIcon height={12} width={12}
-                     
-                    />
+                  <span className="currencyArrow">
+                    <ArrowIcon height={12} width={12} />
                   </span>
                 </button>
 
                 {/**currencyLIst */}
                 <div className="currencyList">
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: 0,
-                    }}
-                  >
+                  <ul>
                     {currencyData.map(({ symbol, label }, index) => {
                       return (
                         <li

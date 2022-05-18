@@ -102,7 +102,7 @@ class App extends PureComponent<PropRedux, AppState> {
                   removeFromCart={removeFromCart}
                   currency={currency}
                 />
-                <div style={{ margin: "85px 0" }}>
+                <div className="AppBody">
                   <Switch>
                     <Route
                       exact
@@ -149,6 +149,8 @@ class App extends PureComponent<PropRedux, AppState> {
                               handleCurrency={this.handleCurrenc}
                               currency={currency}
                               addCart={addToCart}
+                              removeFromCart={removeFromCart}
+                              cart={cart}
                             />
                           )}
                         />

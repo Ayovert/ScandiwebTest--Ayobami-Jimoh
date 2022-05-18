@@ -1,7 +1,10 @@
 .App {
-  margin: 0 120px;
+  //margin: 0 120px;
 }
 
+.AppBody {
+  margin: 0 200px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

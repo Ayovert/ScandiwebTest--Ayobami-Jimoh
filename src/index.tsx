@@ -1,41 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './app/layout/App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql
-} from "@apollo/client";
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./app/layout/App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { Provider } from "react-redux";
 
-import {store} from './app/redux/store'
-
+import { store } from "./app/redux/store";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache()
+  uri: "http://localhost:4000",
+  cache: new InMemoryCache(),
 });
-
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-    <Router>
-      <Provider store={store}>
-      <App />
-      </Provider>
-   
-    </Router>
+      <Router>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Router>
     </ApolloProvider>
-    
-    
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

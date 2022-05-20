@@ -127,3 +127,34 @@ export function productExistInCart(
 
   return productInCart;
 }
+
+
+export function SlideShow(galleryLength: number, slideNum: number, index: number, slide:number[]) {
+
+  if (slide[index] !== undefined) {
+ //   let a = slide.slice(); //creates the clone of the state
+
+    let currentSLide = slide[index];
+
+    const slideIndex = currentSLide + slideNum;
+
+
+
+    if (slideIndex > galleryLength - 1) {
+      slide[index] = 0;
+    } else if (slideIndex < 0) {
+      slide[index] = galleryLength - 1;
+    } else {
+      slide[index] = slideIndex;
+    }
+
+   // slide[index] = indexSet;
+
+
+   
+    return slide;
+  } else {
+    console.log("error on changing slide");
+    return [];
+  }
+}

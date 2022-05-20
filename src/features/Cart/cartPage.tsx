@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { Cart, CartParams } from "../../app/model/Cart";
 import "./cartPage.scss";
 import {
+  attributeExist,
   calculateTax,
   CartToCartParams,
   getQuantity,
   getSubtotal,
+  SlideShow,
 } from "../../app/util/util";
 import ProductAttributeComponent from "../product/productDetails/productAttributeComp";
 import { ReactComponent as ArrowIcon } from "../../images/arrowRbg.svg";
@@ -19,60 +21,27 @@ interface Props {
   removeFromCart: (cartParams: CartParams) => void;
 }
 
-interface SlideState {
-  galleryIndex: number;
-  slideIndex: number;
-}
-
 type CartState = {
-  slideNumber?: SlideState[];
-  slideNumberX: number[];
+  slideArr: number[];
 };
 class CartPage extends PureComponent<Props, CartState> {
   state: CartState = {
-    slideNumber: [{ galleryIndex: 0, slideIndex: 0 }],
-    slideNumberX: new Array(this.props.cart?.items.length).fill(0),
+    slideArr: new Array(this.props.cart?.items.length).fill(0),
   };
 
-  /* componentDidMount(){
-    this.setState
-  }*/
+  setImage(
+    galleryLength: number,
+    slideNum: number,
+    index: number,
+    slide: number[]
+  ) {
+    const newSlide = SlideShow(galleryLength, slideNum, index, slide);
 
-  SlideShow(galleryLength: number, slideNum: number, index: number) {
-    console.log("changeSlide");
-    const { slideNumberX } = this.state;
-
-    if (slideNumberX[index] !== undefined) {
-      let a = this.state.slideNumberX.slice(); //creates the clone of the state
-
-      let currentSLide = a[index];
-
-      const slideIndex = currentSLide + slideNum;
-
-      let indexSet = a[index];
-
-      console.log(indexSet);
-
-      if (slideIndex > galleryLength - 1) {
-        indexSet = 0;
-      } else if (slideIndex < 0) {
-        indexSet = galleryLength - 1;
-      } else {
-        indexSet = slideIndex;
-      }
-
-      a[index] = indexSet;
-
-      this.setState({ slideNumberX: a }, () => {
-        console.log(slideNumberX);
-      });
-    } else {
-      console.log("error on changing slide");
-    }
+    this.setState({ slideArr: newSlide });
   }
 
   render(): ReactNode {
-    const { slideNumberX } = this.state;
+    const { slideArr } = this.state;
     const { cart, currency, addCart, removeFromCart } = this.props;
     const subtotal = getSubtotal(cart, currency);
     const tax = calculateTax(subtotal);
@@ -85,17 +54,9 @@ class CartPage extends PureComponent<Props, CartState> {
           {cart !== null &&
             cart.items &&
             cart.items.map((item, index) => {
-              const sizeAttr = item.attributes.findIndex(
-                (items) => items.name === "Size"
-              );
+              const attrExist = attributeExist(item);
 
-              const colorAttr = item.attributes.findIndex(
-                (items) => items.name === "Color"
-              );
-
-              const capacityAttr = item.attributes.findIndex(
-                (items) => items.name === "Capacity"
-              );
+              const { sizeAttr, capacityAttr, colorAttr } = attrExist;
 
               return (
                 <div key={index}>
@@ -182,7 +143,7 @@ class CartPage extends PureComponent<Props, CartState> {
                         className="cartImage"
                         style={{
                           backgroundImage: `url(${
-                            item.gallery[slideNumberX[index]]
+                            item.gallery[slideArr[index]]
                           })`,
                         }}
                       >
@@ -190,13 +151,23 @@ class CartPage extends PureComponent<Props, CartState> {
                           <ArrowIcon
                             className="prev arrowIcon"
                             onClick={() => {
-                              this.SlideShow(item.gallery.length, -1, index);
+                              this.setImage(
+                                item.gallery.length,
+                                -1,
+                                index,
+                                slideArr
+                              );
                             }}
                           />
                           <ArrowIcon
                             className="arrowIcon"
                             onClick={() => {
-                              this.SlideShow(item.gallery.length, 1, index);
+                              this.setImage(
+                                item.gallery.length,
+                                1,
+                                index,
+                                slideArr
+                              );
                             }}
                           />
                         </div>

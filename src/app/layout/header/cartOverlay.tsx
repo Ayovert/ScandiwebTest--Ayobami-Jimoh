@@ -3,7 +3,7 @@ import { PureComponent, ReactNode } from "react";
 import { Cart, CartParams } from "../../model/Cart";
 
 import { ReactComponent as CartIcon } from "../../../images/cart.svg";
-import { CartToCartParams, getSubtotal } from "../../util/util";
+import { attributeExist, CartToCartParams, getSubtotal } from "../../util/util";
 import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComp";
 
 interface Props {
@@ -53,17 +53,9 @@ class CartOverlay extends PureComponent<Props> {
             {cart !== null &&
               cart.items.length > 0 &&
               cart.items.map((item, index) => {
-                const sizeAttr = item.attributes.findIndex(
-                  (items) => items.name === "Size"
-                );
+                const attrExist = attributeExist(item);
 
-                const colorAttr = item.attributes.findIndex(
-                  (items) => items.name === "Color"
-                );
-
-                const capacityAttr = item.attributes.findIndex(
-                  (items) => items.name === "Capacity"
-                );
+              const { sizeAttr, capacityAttr, colorAttr } = attrExist;
 
                 return (
                   <div key={index} className="cartItems">

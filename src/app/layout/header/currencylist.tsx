@@ -4,6 +4,7 @@ import { GET_CURRENCIES } from "../../api/queries";
 import { Currency } from "../../model/Product";
 import { ReactComponent as ArrowIcon } from "../../../images/arrowR.svg";
 import "./header.scss";
+import { getCurrency } from "../../util/util";
 
 type Props = {
   handleCurrency: () => void;
@@ -19,18 +20,17 @@ class CurrencyList extends PureComponent<Props> {
     currencyNum: this.props.currencyActive,
   };
 
-  handleCurrenc = (index: number) => {
+  setCurrency = (index: number) => {
     //this.setState({open: !this.state});
     document.cookie = `currency=${index}`;
   };
 
   render(): ReactNode {
     const { handleCurrency } = this.props;
-    const { currencyNum } = this.state;
 
     return (
       <>
-        <Query query={GET_CURRENCIES}>
+        <Query query={GET_CURRENCIES} variables={{}}>
           {({ loading, error, data }: QueryResult) => {
             if (error) {
               console.log(error);
@@ -43,7 +43,7 @@ class CurrencyList extends PureComponent<Props> {
             return (
               <div className="currencyDiv">
                 <button type="button" className="currencyButton">
-                  <span>{currencyData[currencyNum].symbol}</span>
+                  <span>{currencyData[getCurrency()].symbol}</span>
                   <span className="currencyArrow">
                     <ArrowIcon height={12} width={12} />
                   </span>
@@ -59,12 +59,12 @@ class CurrencyList extends PureComponent<Props> {
                           className="currencyListItem"
                           style={{
                             backgroundColor: `${
-                              currencyNum === index ? "#cfcfcf" : ""
+                              getCurrency() === index ? "#cfcfcf" : ""
                             }`,
                           }}
                           onClick={() => {
                             this.setState({ currencyNum: index });
-                            this.handleCurrenc(index);
+                            this.setCurrency(index);
                             handleCurrency();
                           }}
                         >

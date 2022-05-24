@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client";
+import { Currency } from "../model/Product";
+import { client } from "./apolloClient";
 
 export const EXCHANGE_RATES = gql`
   query GetExchangeRates {
@@ -89,3 +91,16 @@ export const GET_PRODUCT = gql`
     }
   }
 `;
+
+export const getCurrencies = () => {
+  return client.query({
+    query: gql`
+      query getCurrencies {
+        currencies {
+          symbol
+          label
+        }
+      }
+    `
+  }).then((i => i.data.currencies as Currency[]))
+}

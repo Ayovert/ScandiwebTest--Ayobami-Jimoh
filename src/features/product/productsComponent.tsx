@@ -8,7 +8,7 @@ import { ReactComponent as CartIcon } from "../../images/cart.svg";
 import { Component } from "react";
 import { Query } from "@apollo/react-components";
 import { CartParams } from "../../app/model/Cart";
-import { getDefaultAttribute } from "../../app/util/util";
+import { getProductAttribute } from "../../app/util/util";
 
 interface Props {
   categoryName: string;
@@ -41,7 +41,7 @@ class ProductListPage extends Component<Props> {
 
                 <div className="product">
                   {data?.category.products.map((product: Product) => {
-                    const defaultAttr = getDefaultAttribute(product);
+                    const defaultAttr = getProductAttribute(product);
                     const { defaultCapacity, defaultColor, defaultSize } =
                       defaultAttr;
 
@@ -56,12 +56,6 @@ class ProductListPage extends Component<Props> {
                         <div className="productCardAction">
                           <Link to={`${pageTitle.toLowerCase()}/${product.id}`}>
                             <img alt="product" src={product.gallery[0]} />
-
-                            {/* <div className="productCardOverlay">
-                        <h6>
-                         Click image to view details
-                        </h6>
-                      </div>*/}
 
                             {!product.inStock && (
                               <div className="outOfStock">
@@ -107,9 +101,6 @@ class ProductListPage extends Component<Props> {
       </>
     );
   }
-
-  //  if (loading) return <p>Loading...</p>;
-  //if (error) return <div>Error! {error.stack}</div>;
 }
 
 export default ProductListPage;

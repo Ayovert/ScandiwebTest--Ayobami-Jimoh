@@ -9,7 +9,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { PureComponent } from "react";
 import { RootState } from "../redux/store";
 import HeaderComponent from "./header/header";
-import { getCookie } from "../util/util";
+import { getCurrency } from "../util/util";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { CartParams } from "../model/Cart";
 import { Query, QueryResult } from "@apollo/react-components";
@@ -46,29 +46,13 @@ type AppState = {
   currency: number;
 };
 
-const currstr = getCookie("currency");
-
-const currencyNum =
-  currstr !== undefined && currstr !== "" ? parseInt(currstr) : 0;
-
 class App extends PureComponent<PropRedux, AppState> {
-  /*constructor(props:PropRedux){
-    super(props);
-    this.state={
-      currency:0
-    }
-  }*/
   state: AppState = {
-    currency: currencyNum,
+    currency: getCurrency(),
   };
 
   handleCurrenc = () => {
-    //this.setState({open: !this.state});
-
-    const currstr = getCookie("currency");
-
-    const currency =
-      currstr !== undefined && currstr !== "" ? parseInt(currstr) : 0;
+    const currency = getCurrency();
 
     this.setState({ currency: currency });
   };
@@ -118,18 +102,6 @@ class App extends PureComponent<PropRedux, AppState> {
                       )}
                     />
 
-                    <Route
-                      path="/cart"
-                      render={() => (
-                        <CartPage
-                          cart={cart}
-                          currency={currency}
-                          addCart={addToCart}
-                          removeFromCart={removeFromCart}
-                        />
-                      )}
-                    />
-
                     {categoryData.map((values, index) => (
                       <Route key={index} path={`/${values.name}`}>
                         <Route exact path={`/${values.name}`}>
@@ -147,7 +119,6 @@ class App extends PureComponent<PropRedux, AppState> {
                           render={() => (
                             <ProductDetails
                               handleCurrency={this.handleCurrenc}
-                              currency={currency}
                               addCart={addToCart}
                               removeFromCart={removeFromCart}
                               cart={cart}
@@ -156,6 +127,18 @@ class App extends PureComponent<PropRedux, AppState> {
                         />
                       </Route>
                     ))}
+
+                    <Route
+                      path="/cart"
+                      render={() => (
+                        <CartPage
+                        currency={currency}
+                          cart={cart}
+                          addCart={addToCart}
+                          removeFromCart={removeFromCart}
+                        />
+                      )}
+                    />
 
                     <Route path="*" render={() => <NotFound />} />
                   </Switch>

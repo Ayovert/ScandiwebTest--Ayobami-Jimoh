@@ -3,34 +3,32 @@ import { PureComponent, ReactNode } from "react";
 import { Cart, CartParams } from "../../model/Cart";
 
 import { ReactComponent as CartIcon } from "../../../images/cart.svg";
-import { attributeExist, CartToCartParams, getSubtotal } from "../../util/util";
-import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComp";
+import {
+  getQuantity,
+  getSubtotal,
+  getCurrencySymbol,
+  getCartAttr,
+} from "../../util/util";
+
+import CartControls from "../../../features/Cart/cartControls";
+import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComponent";
 
 interface Props {
   cart: Cart | null;
   currency: number;
   addCart: (cartParams: CartParams) => void;
   removeFromCart: (cartParams: CartParams) => void;
-  cartQuantity: number;
 }
 
 class CartOverlay extends PureComponent<Props> {
   render(): ReactNode {
-    const { cart, addCart, removeFromCart, currency, cartQuantity } =
-      this.props;
+    const { cart, addCart, removeFromCart, currency } = this.props;
 
     const subtotal = getSubtotal(cart, currency);
 
-    let symbol = "";
-    let label = "";
+    const cartQuantity = getQuantity(cart);
 
-    console.log(cart);
-
-    if (cart !== null && cart?.items.length > 0) {
-      symbol = cart?.items[0].prices[currency].currency.symbol;
-
-      label = cart?.items[0].prices[currency].currency.label;
-    }
+    const { label, symbol } = getCurrencySymbol(cart, currency);
 
     return (
       <>
@@ -53,9 +51,9 @@ class CartOverlay extends PureComponent<Props> {
             {cart !== null &&
               cart.items.length > 0 &&
               cart.items.map((item, index) => {
-                const attrExist = attributeExist(item);
+                const cartAtr = getCartAttr(item);
 
-              const { sizeAttr, capacityAttr, colorAttr } = attrExist;
+                
 
                 return (
                   <div key={index} className="cartItems">
@@ -72,75 +70,28 @@ class CartOverlay extends PureComponent<Props> {
                       </span>
 
                       {/**price*/}
-                      {/*Size */}
-                      {(sizeAttr !== null || sizeAttr !== undefined) &&
-                        sizeAttr > -1 && (
+
+                      {item.attributes.map((value, index) => {
+                        
+                        return (
                           <ProductAttributeComponent
-                            cartItems={item}
-                            attribute={item.selectedSize!}
-                            defaultAttribute={""}
-                            classname="productSize"
-                            alt="X"
+                            key={index}
+                            //productData={productData}
+                            attribute={cartAtr[index]!}
                             input={false}
-                            name="Size"
-                          />
-                        )}
-
-                      {/* Size */}
-
-                      {/**Color */}
-
-                      {(colorAttr !== null || colorAttr !== undefined) &&
-                        colorAttr > -1 && (
-                          <ProductAttributeComponent
-                            cartItems={item}
-                            attribute={item.selectedColor!}
-                            defaultAttribute={""}
-                            classname="productColor"
                             alt="X"
-                            input={false}
-                            name="Color"
+                            // name={name}
+                            attributeX={value}
                           />
-                        )}
-
-                      {/**Color */}
-
-                      {/**Capacity */}
-                      {(capacityAttr !== null || capacityAttr !== undefined) &&
-                        capacityAttr > -1 && (
-                          <ProductAttributeComponent
-                            cartItems={item}
-                            attribute={item.selectedCapacity!}
-                            defaultAttribute={""}
-                            classname="productCapacity"
-                            alt="X"
-                            input={false}
-                            name="Capacity"
-                          />
-                        )}
-
-                      {/**Capacity */}
+                        );
+                      })}
                     </div>
 
-                    <div className="cartControls">
-                      <div
-                        className="cartControlItem"
-                        onClick={() => {
-                          addCart(CartToCartParams(item));
-                        }}
-                      >
-                        <span>+</span>
-                      </div>
-
-                      <span className="cartCount">{item.quantity}</span>
-
-                      <div
-                        className="cartControlItem"
-                        onClick={() => removeFromCart(CartToCartParams(item))}
-                      >
-                        <span>-</span>
-                      </div>
-                    </div>
+                    <CartControls
+                      item={item}
+                      addCart={addCart}
+                      removeFromCart={removeFromCart}
+                    />
 
                     <div className="cartImageDiv">
                       <div

@@ -163,7 +163,7 @@
 
           ~ .backdrop {
             display: block;
-            position: fixed;
+            position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
@@ -172,6 +172,7 @@
             opacity: 0.5;
             z-index: 2;
             margin-top: 100px;
+            height: 100vw;
           }
         }
 
@@ -226,6 +227,7 @@
             z-index 0s linear 0.01s;
 
           height: max-content;
+          height: 40rem;
           overflow: auto;
 
           .cartTitle {
@@ -290,7 +292,18 @@
               .attributeTitle {
                 margin: 0.1rem 0;
                 font-size: 0.8rem;
+                &::after {
+                  content: ":";
+                }
               }
+
+              .attributeTitle2 {
+                margin: 0;
+
+                margin-top: 1rem; 
+                
+              }
+            
 
               .productBrand,
               .productName {

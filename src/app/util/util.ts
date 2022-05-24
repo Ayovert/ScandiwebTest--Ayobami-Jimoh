@@ -57,52 +57,100 @@ export function removeTags(str: string) {
   return str.replace(/(<([^>]+)>)/gi, "");
 }
 
-export function getDefaultAttribute(productData: Product) {
+
+export function getAttribute(productData : Product, size?: string,
+  color?: string,
+  capacity?: string){
+  let defaultAttr = [];
+
+  for (let x in productData.attributes) {
+    const name = productData.attributes[x].name;
+
+    if (name === "Size") {
+      defaultAttr.push(size === "" ?  productData.attributes[x].items[1].value! : size);
+    } else if (name === "Color") {
+      defaultAttr.push( color === "" ?  productData.attributes[x].items[1].value! : color);
+    } else if (name === "Capacity") {
+      defaultAttr.push(capacity === "" ?  productData.attributes[x].items[1].value! : capacity);
+    }
+    else{
+      defaultAttr.push(productData.attributes[x].items[0].value!)
+    }  
+       
+  }
+ 
+  
+  return defaultAttr;
+
+}
+
+export function getProductAttribute(
+  productData: Product,
+  size?: string,
+  color?: string,
+  capacity?: string
+) {
+
+
+
+
+
   let defaultSize = "";
   let defaultColor = "";
   let defaultCapacity = "";
 
   for (let x in productData.attributes) {
-    let name = productData.attributes[x].name.toLowerCase();
+  
+    let name = productData.attributes[x].name;
 
-    if (name === "size") {
+    if (name === "Size") {
       defaultSize = productData.attributes[x].items[1].value!;
-    } else if (name === "color") {
+    } else if (name === "Color") {
       defaultColor = productData.attributes[x].items[1].value!;
-    } else if (name === "capacity") {
+    } else if (name === "Capacity") {
       defaultCapacity = productData.attributes[x].items[1].value!;
     }
+
   }
 
+  const theColor = color === "" || color === undefined ? defaultColor : color;
+  const theCapacity = capacity === "" || capacity === undefined ? defaultCapacity : capacity;
+  const theSize = size === "" || size === undefined ? defaultSize : size;
+
+
+
+
   let defaultAttr: DefaultAttribute = {
-    defaultColor: defaultColor,
-    defaultCapacity: defaultCapacity,
-    defaultSize: defaultSize,
+    defaultColor: theColor!,
+    defaultCapacity: theCapacity!,
+    defaultSize: theSize!,
   };
 
   return defaultAttr;
 }
 
-export function attributeExist(productData: Product) {
-  const sizeAttr = productData.attributes.findIndex(
-    (items) => items.name === "Size"
-  );
 
-  const colorAttr = productData.attributes.findIndex(
-    (items) => items.name === "Color"
-  );
 
-  const capacityAttr = productData.attributes.findIndex(
-    (items) => items.name === "Capacity"
-  );
 
-  let attr = {
-    sizeAttr: sizeAttr,
-    colorAttr: colorAttr,
-    capacityAttr: capacityAttr,
-  };
+export function getCartAttr(cartItem : CartItems){
+  let cartAttr = [];
+  for (let x in cartItem.attributes) {
+    const name = cartItem.attributes[x].name;
 
-  return attr;
+    if (name === "Size") {
+      cartAttr.push(cartItem.selectedSize);
+    } else if (name === "Color") {
+     cartAttr.push( cartItem.selectedColor);
+    } else if (name === "Capacity") {
+      cartAttr.push(cartItem.selectedCapacity);
+    }
+    else{
+      cartAttr.push(cartItem.attributes[x].items[0].value!)
+    }  
+       
+  }
+
+  return cartAttr;
 }
 
 export function productExistInCart(
@@ -128,17 +176,18 @@ export function productExistInCart(
   return productInCart;
 }
 
-
-export function SlideShow(galleryLength: number, slideNum: number, index: number, slide:number[]) {
-
+export function SlideShow(
+  galleryLength: number,
+  slideNum: number,
+  index: number,
+  slide: number[]
+) {
   if (slide[index] !== undefined) {
- //   let a = slide.slice(); //creates the clone of the state
+    //   let a = slide.slice(); //creates the clone of the state
 
     let currentSLide = slide[index];
 
     const slideIndex = currentSLide + slideNum;
-
-
 
     if (slideIndex > galleryLength - 1) {
       slide[index] = 0;
@@ -148,13 +197,33 @@ export function SlideShow(galleryLength: number, slideNum: number, index: number
       slide[index] = slideIndex;
     }
 
-   // slide[index] = indexSet;
+    // slide[index] = indexSet;
 
-
-   
     return slide;
   } else {
     console.log("error on changing slide");
     return [];
   }
+}
+
+export const getCurrency = () => {
+  const currstr = getCookie("currency");
+
+  const currencyNum =
+    currstr !== undefined && currstr !== "" ? parseInt(currstr) : 0;
+
+  return currencyNum;
+};
+
+export const getCurrencySymbol = (cart : Cart | null, currency: number) =>{
+  let symbol = "";
+    let label = "";
+
+    if (cart !== null && cart?.items.length > 0) {
+      symbol = cart?.items[0].prices[currency].currency.symbol;
+
+      label = cart?.items[0].prices[currency].currency.label;
+    }
+
+    return {symbol, label};
 }

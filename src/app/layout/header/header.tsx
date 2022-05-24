@@ -7,7 +7,6 @@ import { ReactComponent as CloudIcon } from "../../../images/clouds3.svg";
 import { Cart, CartParams } from "../../model/Cart";
 import { PureComponent, ReactNode } from "react";
 import { Category } from "../../model/Product";
-import { getQuantity } from "../../util/util";
 
 interface Props {
   cart: Cart | null;
@@ -28,7 +27,7 @@ class HeaderComponent extends PureComponent<Props> {
       categories,
     } = this.props;
 
-    const cartQuantity = getQuantity(cart);
+    
 
     return (
       <header className="navHeader" id="section-1">
@@ -63,7 +62,6 @@ class HeaderComponent extends PureComponent<Props> {
               addCart={addCart}
               removeFromCart={removeFromCart}
               currency={currency}
-              cartQuantity={cartQuantity}
             />
           </div>
         </div>

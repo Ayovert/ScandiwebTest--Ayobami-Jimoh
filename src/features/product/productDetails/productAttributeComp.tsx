@@ -1,12 +1,21 @@
-import { ChangeEvent, Component } from "react";
+import { Component, Props } from "react";
+
+export default class ProductAttributeComp extends Component {
+  render() {
+    return(
+      <></>
+    )
+  }
+}
+/*import { ChangeEvent, Component } from "react";
 import { Product } from "../../../app/model/Product";
 import "./productAttribute.scss";
 import { CartItems } from "../../../app/model/Cart";
+import CustomRadioInput from "../../../app/layout/reUse/customRadioInput";
 
 interface Props {
   productData?: Product;
   cartItems?: CartItems;
-  defaultAttribute: string;
   handleAttributeChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   attribute: string;
   input: boolean;
@@ -15,11 +24,10 @@ interface Props {
   name: string;
 }
 
-class ProductAttributeComponent extends Component<Props> {
+class ProductAttributeComp extends Component<Props> {
   render() {
     const {
       productData,
-      defaultAttribute,
       cartItems,
       handleAttributeChange,
       classname,
@@ -45,25 +53,15 @@ class ProductAttributeComponent extends Component<Props> {
           {attributesData.length > 0 &&
             attributesData
               .filter((items) => items.name === name)
-              .map((items) =>
-                items.items.map(({ value }, index) => {
-                  const defSelected =
-                    attribute === "" && value === defaultAttribute;
+              .map((itemArray) =>
+                itemArray.items.map(({ value }, index) => {
                   const selected = attribute !== "" && value === attribute;
 
-                  const altBackground = selected
-                    ? "black"
-                    : defSelected
-                    ? "black"
-                    : "white";
-                  const altColor = selected
-                    ? "white"
-                    : defSelected
-                    ? "white"
-                    : "black";
+                  const altBackground = selected ? "black" : "white";
+                  const altColor = selected ? "white" : "black";
 
                   const backgroundColor =
-                    name === "Color" ? value : altBackground;
+                    itemArray.type === "swatch" ? value : altBackground;
                   return (
                     <div className={`${classname}Box`} key={value}>
                       <div
@@ -73,17 +71,11 @@ class ProductAttributeComponent extends Component<Props> {
                           color: `${altColor}`,
                         }}
                       >
-                        {name === "Color" ? (
+                        {itemArray.type === "swatch" ? (
                           <span
                             className="check"
                             style={{
-                              display: `${
-                                selected
-                                  ? "block"
-                                  : defSelected
-                                  ? "block"
-                                  : "none"
-                              }`,
+                              display: `${selected ? "block" : "none"}`,
                             }}
                           ></span>
                         ) : (
@@ -91,18 +83,14 @@ class ProductAttributeComponent extends Component<Props> {
                         )}
 
                         {input && (
-                          <input
-                            type="radio"
-                            name={name.toLowerCase()}
-                            checked={
-                              (attribute !== "" && value === attribute) ||
-                              (attribute === "" && value === defaultAttribute)
-                            }
+                          <CustomRadioInput
+                            checked={selected}
+                            onChange={(e) => {
+                              handleAttributeChange!(e);
+                            }}
                             value={value}
                             id={`${name.toLowerCase()}${index}`}
-                            onChange={(e) => {
-                              handleAttributeChange && handleAttributeChange(e);
-                            }}
+                            name={name.toLowerCase()}
                           />
                         )}
                       </div>
@@ -116,4 +104,4 @@ class ProductAttributeComponent extends Component<Props> {
   }
 }
 
-export default ProductAttributeComponent;
+export default ProductAttributeComp;*/

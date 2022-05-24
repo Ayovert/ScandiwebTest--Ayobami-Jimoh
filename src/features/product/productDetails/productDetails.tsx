@@ -7,14 +7,17 @@ import "./productDetails.scss";
 import { Product } from "../../../app/model/Product";
 
 import { Cart, CartParams } from "../../../app/model/Cart";
-import ProductAttributeComponent from "./productAttributeComp";
 import {
-  attributeExist,
-  CartToCartParams,
-  getDefaultAttribute,
+  getAttribute,
+  getCurrency,
+  getProductAttribute,
   productExistInCart,
 } from "../../../app/util/util";
 import parse from "html-react-parser";
+import ProductAttributeComponent from "./productAttributeComponent";
+import { coreAttr } from "../../../app/api/data";
+import CartControls from "../../Cart/cartControls";
+import ImageSwitcher from "./ImageSwitcher";
 
 type ProductState = {
   id: string;
@@ -26,7 +29,6 @@ type ProductState = {
 };
 
 interface Props extends RouteComponentProps {
-  currency: number;
   handleCurrency: () => void;
   addCart: (cartParams: CartParams) => void;
   removeFromCart: (cartParams: CartParams) => void;
@@ -56,9 +58,9 @@ class ProductDetails extends Component<Props, ProductState> {
 
     this.setState(id);
 
-    this.props.handleCurrency();
+    // this.props.handleCurrency();
 
-    this.setState({ currency: this.props.currency });
+    //this.setState({ currency: this.props.currency });
   }
 
   handleAttributeChange(event: ChangeEvent<HTMLInputElement>) {
@@ -75,7 +77,8 @@ class ProductDetails extends Component<Props, ProductState> {
   render() {
     const { id, color, size, capacity, imageIndex } = this.state;
 
-    const { addCart, currency, cart, removeFromCart } = this.props;
+    const { addCart, cart, removeFromCart } = this.props;
+    const currency = getCurrency();
 
     if (id !== "") {
       return (
@@ -90,47 +93,36 @@ class ProductDetails extends Component<Props, ProductState> {
 
               const productData = data.product as Product;
 
-              const defaultAttr = getDefaultAttribute(productData);
-              const { defaultCapacity, defaultColor, defaultSize } =
-                defaultAttr;
+              const productAttr = getProductAttribute(
+                productData,
+                size,
+                color,
+                capacity
+              );
+              //  const { defaultCapacity, defaultColor, defaultSize } =
+              //  defaultAttr;
 
-              const attrExist = attributeExist(productData);
+              // const attrExist = attributeExist(productData);
 
-              const { sizeAttr, capacityAttr, colorAttr } = attrExist;
-
-              const theColor = color === "" ? defaultColor : color;
-              const theCapacity = capacity === "" ? defaultCapacity : capacity;
-              const theSize = size === "" ? defaultSize : size;
+              const { defaultColor, defaultCapacity, defaultSize } =
+                productAttr;
 
               const productInCart = productExistInCart(
                 cart,
                 productData.id,
-                theCapacity,
-                theColor,
-                theSize
+                defaultCapacity,
+                defaultColor,
+                defaultSize
               );
+
+              const prodAtr = getAttribute(productData, size, color, capacity);
 
               return (
                 <>
                   <div className="productDetails">
                     <div className="miniImages">
                       {productData.gallery.map((value, index) => (
-                        <img
-                          className="miniImagesItem"
-                          key={index}
-                          alt="product-mini"
-                          src={value}
-                          onClick={() => {
-                            this.setState({ imageIndex: index });
-                          }}
-                          style={{
-                            border: `${
-                              imageIndex === index
-                                ? "3px solid #5ece7b"
-                                : "none"
-                            }`,
-                          }}
-                        />
+                        <ImageSwitcher key={index} index={index} value={value} imageIndex={imageIndex} onClick={() => this.setState({ imageIndex: index })} />
                       ))}
                     </div>
                     <div className="mainImage">
@@ -143,41 +135,19 @@ class ProductDetails extends Component<Props, ProductState> {
                       <h1>{productData.brand}</h1>
                       <p className="productName">{productData.name}</p>
 
-                      {sizeAttr > -1 && (
-                        <ProductAttributeComponent
-                          productData={productData}
-                          attribute={size}
-                          handleAttributeChange={this.handleAttributeChange}
-                          defaultAttribute={defaultAttr.defaultSize}
-                          classname="productSize"
-                          input={true}
-                          name="Size"
-                        />
-                      )}
-
-                      {colorAttr > -1 && (
-                        <ProductAttributeComponent
-                          productData={productData}
-                          defaultAttribute={defaultAttr.defaultColor}
-                          handleAttributeChange={this.handleAttributeChange}
-                          attribute={color}
-                          classname="productColor"
-                          input={true}
-                          name="Color"
-                        />
-                      )}
-
-                      {capacityAttr > -1 && (
-                        <ProductAttributeComponent
-                          productData={productData}
-                          attribute={capacity}
-                          handleAttributeChange={this.handleAttributeChange}
-                          defaultAttribute={defaultAttr.defaultCapacity}
-                          classname="productCapacity"
-                          input={true}
-                          name="Capacity"
-                        />
-                      )}
+                      {productData.attributes.map((value, index) => {
+                        return (
+                          <ProductAttributeComponent
+                            key={index}
+                            //productData={productData}
+                            attribute={prodAtr[index]!}
+                            handleAttributeChange={this.handleAttributeChange}
+                            input={coreAttr.includes(value.name) ? true : false}
+                            // name={name}
+                            attributeX={value}
+                          />
+                        );
+                      })}
 
                       <div className="productPriceBox">
                         <h4 className="cartQTitle">PRICE:</h4>
@@ -197,9 +167,9 @@ class ProductDetails extends Component<Props, ProductState> {
                               onClick={() => {
                                 addCart({
                                   product: productData,
-                                  selectedColor: theColor,
-                                  selectedCapacity: theCapacity,
-                                  selectedSize: theSize,
+                                  selectedSize: defaultSize,
+                                  selectedColor: defaultColor,
+                                  selectedCapacity: defaultCapacity,
                                 });
                               }}
                             >
@@ -207,37 +177,16 @@ class ProductDetails extends Component<Props, ProductState> {
                             </button>
                           </div>
                         ) : (
-                          <div className="cartQ">
-                            <h4 className="cartQTitle">QUANTITY </h4>
-
-                            <div className="cartControls">
-                              <div
-                                className="cartControlItem"
-                                onClick={() => {
-                                  addCart(
-                                    CartToCartParams(cart!.items[productInCart])
-                                  );
-                                }}
-                              >
-                                <span>+</span>
-                              </div>
-
-                              <span className="cartCount">
-                                {cart!.items[productInCart].quantity}
-                              </span>
-
-                              <div
-                                className="cartControlItem"
-                                onClick={() =>
-                                  removeFromCart(
-                                    CartToCartParams(cart!.items[productInCart])
-                                  )
-                                }
-                              >
-                                <span>-</span>
-                              </div>
+                          <>
+                            <div className="cartQ">
+                              <h4 className="cartQTitle">QUANTITY </h4>
+                              <CartControls
+                                item={cart!.items[productInCart]}
+                                addCart={addCart}
+                                removeFromCart={removeFromCart}
+                              />
                             </div>
-                          </div>
+                          </>
                         )
                       ) : (
                         <div className="cartQ">

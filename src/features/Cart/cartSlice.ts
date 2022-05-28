@@ -81,7 +81,28 @@ export const cartSlice = createSlice({
 
       localStorage.setItem("cartItems", JSON.stringify(state.cart?.items));
     },
+    ClearCart: (state: CartState, action: PayloadAction<CartParams>) => {
+      const {
+        product,
+        selectedCapacity,
+        selectedColor,
+        selectedSize,
+      } = action.payload;
+
+      const itemIndex = state.cart?.items.findIndex(
+        (i) =>
+          i.productId === product.id &&
+          i.selectedColor === selectedColor &&
+          i.selectedSize === selectedSize &&
+          i.selectedCapacity === selectedCapacity
+      );
+
+      if (itemIndex === -1 || itemIndex === undefined) return;
+        state.cart!.items.splice(itemIndex, 1);
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cart?.items));
+    },
   },
 });
 
-export const { AddtoCart, RemoveFromCart } = cartSlice.actions;
+export const { AddtoCart, RemoveFromCart, ClearCart } = cartSlice.actions;

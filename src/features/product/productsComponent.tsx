@@ -7,18 +7,12 @@ import { Link } from "react-router-dom";
 import { ReactComponent as CartIcon } from "../../images/cart.svg";
 import { Component } from "react";
 import { Query } from "@apollo/react-components";
-import { CartParams } from "../../app/model/Cart";
 import { getProductAttribute } from "../../app/util/util";
+import { ProductProps } from "./productState";
 
-interface Props {
-  categoryName: string;
-  pageTitle: string;
-  addCart: (cartParams: CartParams) => void;
-  currency: number;
-  handleCurrency: () => void;
-}
 
-class ProductListPage extends Component<Props> {
+
+class ProductListPage extends Component<ProductProps> {
   render() {
     const { categoryName, pageTitle, addCart, currency } = this.props;
 

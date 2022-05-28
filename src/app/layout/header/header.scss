@@ -48,7 +48,8 @@
         &.active {
           color: rgb(34, 236, 78);
           border-bottom: 2px solid #36e736;
-          padding-bottom: 15px;
+          padding-bottom: 30px;
+          font-weight: 700;
         }
       }
     }
@@ -57,6 +58,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      /*Currency Dropdown*/
       .currencyDiv {
         position: relative;
         display: flex;
@@ -140,7 +143,9 @@
           }
         }
       }
+      /*Currency Dropdown*/
 
+      /*Cart Overlay*/
       .cartOverlay {
         display: flex;
         position: relative;
@@ -171,7 +176,7 @@
             background: black;
             opacity: 0.5;
             z-index: 2;
-            margin-top: 100px;
+            margin-top: 7.1rem;
             height: 100vw;
           }
         }
@@ -216,18 +221,19 @@
           z-index: 99;
           opacity: 0;
           visibility: hidden;
-          margin-top: 70px;
+          margin-top: 84px;
           margin-left: 30px;
           width: 24rem;
 
           padding: 20px;
+          padding-top: 24px;
           border-radius: 3px;
           transform: translateY(-2em);
           transition: all 0.3s ease 0s, visibility 0s linear,
             z-index 0s linear 0.01s;
 
           height: max-content;
-          height: 40rem;
+          max-height: 40rem;
           overflow: auto;
 
           .cartTitle {
@@ -300,10 +306,8 @@
               .attributeTitle2 {
                 margin: 0;
 
-                margin-top: 1rem; 
-                
+                margin-top: 1rem;
               }
-            
 
               .productBrand,
               .productName {
@@ -394,6 +398,7 @@
           }
         }
       }
+      /*Cart Overlay*/
     }
   }
 }

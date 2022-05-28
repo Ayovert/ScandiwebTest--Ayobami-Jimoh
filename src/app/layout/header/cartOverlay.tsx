@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { PureComponent, ReactNode } from "react";
-import { Cart, CartParams } from "../../model/Cart";
 
 import { ReactComponent as CartIcon } from "../../../images/cart.svg";
 import {
@@ -12,17 +11,11 @@ import {
 
 import CartControls from "../../../features/Cart/cartControls";
 import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComponent";
+import { CartProps } from "../../../features/Cart/cartState";
 
-interface Props {
-  cart: Cart | null;
-  currency: number;
-  addCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-}
-
-class CartOverlay extends PureComponent<Props> {
+class CartOverlay extends PureComponent<CartProps> {
   render(): ReactNode {
-    const { cart, addCart, removeFromCart, currency } = this.props;
+    const { cart = null, addCart, removeFromCart, currency = 0 } = this.props;
 
     const subtotal = getSubtotal(cart, currency);
 
@@ -42,7 +35,12 @@ class CartOverlay extends PureComponent<Props> {
             <CartIcon height={25} width={25} />
           </span>
 
-          <div className="cartOverlayContent">
+          <div
+            className="cartOverlayContent"
+            // style={{
+            //overflow:`${cartQuantity > 2 ? 'scroll' : ''} `
+            //}}
+          >
             <p className="cartTitle">
               <span>My Bag .</span> {cartQuantity} items
             </p>
@@ -52,8 +50,6 @@ class CartOverlay extends PureComponent<Props> {
               cart.items.length > 0 &&
               cart.items.map((item, index) => {
                 const cartAtr = getCartAttr(item);
-
-                
 
                 return (
                   <div key={index} className="cartItems">
@@ -72,7 +68,6 @@ class CartOverlay extends PureComponent<Props> {
                       {/**price*/}
 
                       {item.attributes.map((value, index) => {
-                        
                         return (
                           <ProductAttributeComponent
                             key={index}

@@ -1,14 +1,9 @@
 import { Component, ReactNode } from "react";
-import { CartItems, CartParams } from "../../app/model/Cart";
 import { CartToCartParams } from "../../app/util/util";
+import { CartControlProps } from "./cartState";
 
-interface Props {
-  item: CartItems;
-  addCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-}
 
-class CartControls extends Component<Props> {
+class CartControls extends Component<CartControlProps> {
   render(): ReactNode {
     const { item, addCart, removeFromCart } = this.props;
     return (

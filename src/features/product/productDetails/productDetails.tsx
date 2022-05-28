@@ -1,12 +1,11 @@
 import { QueryResult } from "@apollo/client";
 import { Query } from "@apollo/react-components";
 import { ChangeEvent, Component } from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { GET_PRODUCT } from "../../../app/api/queries";
 import "./productDetails.scss";
 import { Product } from "../../../app/model/Product";
 
-import { Cart, CartParams } from "../../../app/model/Cart";
 import {
   getAttribute,
   getCurrency,
@@ -18,24 +17,10 @@ import ProductAttributeComponent from "./productAttributeComponent";
 import { coreAttr } from "../../../app/api/data";
 import CartControls from "../../Cart/cartControls";
 import ImageSwitcher from "./ImageSwitcher";
+import { DetailsProps, ProductState } from "../productState";
 
-type ProductState = {
-  id: string;
-  currency: number;
-  color: string;
-  size: string;
-  capacity: string;
-  imageIndex: number;
-};
 
-interface Props extends RouteComponentProps {
-  handleCurrency: () => void;
-  addCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-  cart: Cart | null;
-}
-
-class ProductDetails extends Component<Props, ProductState> {
+class ProductDetails extends Component<DetailsProps, ProductState> {
   constructor(props: any) {
     super(props);
 
@@ -57,10 +42,6 @@ class ProductDetails extends Component<Props, ProductState> {
     const id = this.props.match.params;
 
     this.setState(id);
-
-    // this.props.handleCurrency();
-
-    //this.setState({ currency: this.props.currency });
   }
 
   handleAttributeChange(event: ChangeEvent<HTMLInputElement>) {
@@ -99,10 +80,6 @@ class ProductDetails extends Component<Props, ProductState> {
                 color,
                 capacity
               );
-              //  const { defaultCapacity, defaultColor, defaultSize } =
-              //  defaultAttr;
-
-              // const attrExist = attributeExist(productData);
 
               const { defaultColor, defaultCapacity, defaultSize } =
                 productAttr;
@@ -122,7 +99,13 @@ class ProductDetails extends Component<Props, ProductState> {
                   <div className="productDetails">
                     <div className="miniImages">
                       {productData.gallery.map((value, index) => (
-                        <ImageSwitcher key={index} index={index} value={value} imageIndex={imageIndex} onClick={() => this.setState({ imageIndex: index })} />
+                        <ImageSwitcher
+                          key={index}
+                          index={index}
+                          value={value}
+                          imageIndex={imageIndex}
+                          onClick={() => this.setState({ imageIndex: index })}
+                        />
                       ))}
                     </div>
                     <div className="mainImage">

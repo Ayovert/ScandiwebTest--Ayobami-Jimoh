@@ -2,32 +2,20 @@ import { NavLink } from "react-router-dom";
 import CartOverlay from "./cartOverlay";
 import CurrencyList from "./currencylist";
 import "./header.scss";
-
 import { ReactComponent as CloudIcon } from "../../../images/clouds3.svg";
-import { Cart, CartParams } from "../../model/Cart";
 import { PureComponent, ReactNode } from "react";
-import { Category } from "../../model/Product";
+import { HeaderProps } from "./headerState";
 
-interface Props {
-  cart: Cart | null;
-  handleCurrency: () => void;
-  addCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-  currency: number;
-  categories: Category[];
-}
-class HeaderComponent extends PureComponent<Props> {
+class HeaderComponent extends PureComponent<HeaderProps> {
   render(): ReactNode {
     const {
       cart,
-      handleCurrency,
+      setCurrency,
       addCart,
       removeFromCart,
-      currency,
+      currency = 0,
       categories,
     } = this.props;
-
-    
 
     return (
       <header className="navHeader" id="section-1">
@@ -52,10 +40,7 @@ class HeaderComponent extends PureComponent<Props> {
             </NavLink>
           </div>
           <div className="rightNav">
-            <CurrencyList
-              handleCurrency={handleCurrency}
-              currencyActive={currency}
-            />
+            <CurrencyList setCurrency={setCurrency} currencyActive={currency} />
 
             <CartOverlay
               cart={cart}

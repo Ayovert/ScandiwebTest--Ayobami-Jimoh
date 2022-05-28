@@ -1,7 +1,5 @@
 import { PureComponent, ReactNode } from "react";
 import { Link } from "react-router-dom";
-
-import { Cart, CartParams } from "../../app/model/Cart";
 import "./cartPage.scss";
 import {
   calculateTax,
@@ -10,34 +8,25 @@ import {
   getCartAttr,
 } from "../../app/util/util";
 
-
 import CartControls from "./cartControls";
 import CartImageSwitcher from "./cartImageSwitcher";
 import ProductAttributeComponent from "../product/productDetails/productAttributeComponent";
+import { CartProps } from "./cartState";
 
-interface Props {
-  cart: Cart | null;
-  currency: number;
-  addCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-}
-
-class CartPage extends PureComponent<Props> {
+class CartPage extends PureComponent<CartProps> {
   render(): ReactNode {
-    const { cart, currency, addCart, removeFromCart } = this.props;
+    const { cart = null, currency = 0, addCart, removeFromCart } = this.props;
     const subtotal = getSubtotal(cart, currency);
     const tax = calculateTax(subtotal);
     const quantity = getQuantity(cart);
 
     return (
       <>
-        <h1>My Cart</h1>
+        <h1>CART</h1>
         <div className="cartPage">
           {cart !== null &&
-            cart.items &&
+            cart.items.length > 0 &&
             cart.items.map((item, index) => {
-            
-
               //    const { sizeAttr, capacityAttr, colorAttr } = attrExist;
               const cartAtr = getCartAttr(item);
 
@@ -58,8 +47,6 @@ class CartPage extends PureComponent<Props> {
                       {/**price*/}
 
                       {/**Size */}
-
-          
 
                       {item.attributes.map((value, index) => {
                         console.log(value);
@@ -94,27 +81,41 @@ class CartPage extends PureComponent<Props> {
               );
             })}
 
-          <div className="cartSummary">
-            <div className="cartSummaryTitle">
-              <span>Tax (21%): </span>
-              <span>Quantity: </span>
-              <span>Total: </span>
-            </div>
-            <div className="cartSummaryData">
-              <span>
-                {cart?.items[0].prices[currency].currency.symbol}{" "}
-                {tax.toFixed(2)}
-              </span>
-              <span>{quantity}</span>
-              <span>$ {subtotal.toFixed(2)} </span>
-            </div>
-          </div>
+          {cart !== null && cart.items.length > 0 && (
+            <>
+              <div className="cartSummary">
+                <div className="cartSummaryTitle">
+                  <span>Tax (21%): </span>
+                  <span>Quantity: </span>
+                  <span>Total: </span>
+                </div>
+                <div className="cartSummaryData">
+                  <span>
+                    {cart?.items[0].prices[currency].currency.symbol}{" "}
+                    {tax.toFixed(2)}
+                  </span>
+                  <span>{quantity}</span>
+                  <span>
+                    {cart?.items[0].prices[currency].currency.symbol}{" "}
+                    {subtotal.toFixed(2)}{" "}
+                  </span>
+                </div>
+              </div>
 
-          <div className="cartOverlayButton">
-            <Link to="" className="viewCart">
-              Checkout
-            </Link>
-          </div>
+              <div className="cartOverlayButton">
+                <Link to="" className="viewCart">
+                  Checkout
+                </Link>
+              </div>
+            </>
+          )}
+
+          {cart === null ||
+            (cart.items.length < 1 && (
+              <div>
+                <h1>Cart Empty</h1>
+              </div>
+            ))}
         </div>
       </>
     );

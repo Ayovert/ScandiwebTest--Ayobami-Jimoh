@@ -5,28 +5,22 @@ import { Currency } from "../../model/Product";
 import { ReactComponent as ArrowIcon } from "../../../images/arrowR.svg";
 import "./header.scss";
 import { getCurrency } from "../../util/util";
+import { CurrencyProps, CurrencyState } from "./headerState";
 
-type Props = {
-  handleCurrency: () => void;
-  currencyActive: number;
-};
 
-type CurrencyState = {
-  currencyNum: number;
-};
 
-class CurrencyList extends PureComponent<Props> {
+class CurrencyList extends PureComponent<CurrencyProps> {
   state: CurrencyState = {
     currencyNum: this.props.currencyActive,
   };
 
-  setCurrency = (index: number) => {
+  setCurrencyCookie = (index: number) => {
     //this.setState({open: !this.state});
     document.cookie = `currency=${index}`;
   };
 
   render(): ReactNode {
-    const { handleCurrency } = this.props;
+    const { setCurrency } = this.props;
 
     return (
       <>
@@ -64,8 +58,8 @@ class CurrencyList extends PureComponent<Props> {
                           }}
                           onClick={() => {
                             this.setState({ currencyNum: index });
-                            this.setCurrency(index);
-                            handleCurrency();
+                            this.setCurrencyCookie(index);
+                            setCurrency();
                           }}
                         >
                           <span>{symbol} </span>

@@ -4,65 +4,33 @@ import ProductDetails from "../../features/product/productDetails/productDetails
 import NotFound from "../../features/error/NotFound";
 import CartPage from "../../features/Cart/cartPage";
 import ProductListPage from "../../features/product/productsComponent";
-import { AddtoCart, RemoveFromCart } from "../../features/Cart/cartSlice";
-import { connect, ConnectedProps } from "react-redux";
+import { connect} from "react-redux";
 import { PureComponent } from "react";
-import { RootState } from "../redux/store";
 import HeaderComponent from "./header/header";
 import { getCurrency } from "../util/util";
-import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { CartParams } from "../model/Cart";
 import { Query, QueryResult } from "@apollo/react-components";
 import { GET_CATEGORIES } from "../api/queries";
 import { Category } from "../model/Product";
+import { PropRedux, AppState, mapDispatchToProps, mapStateToProps } from "./AppState";
 
-interface DispatchProps {
-  addToCart: (cartParams: CartParams) => void;
-  removeFromCart: (cartParams: CartParams) => void;
-}
-
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<RootState, void, AnyAction>
-): DispatchProps => ({
-  addToCart: (cartParams: CartParams) => {
-    dispatch(AddtoCart(cartParams));
-  },
-  removeFromCart: (cartParams: CartParams) => {
-    dispatch(RemoveFromCart(cartParams));
-  },
-});
-
-const mapStateToProps = (state: RootState) => {
-  return {
-    cart: state.cart.cart,
-  };
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropRedux = ConnectedProps<typeof connector>;
-
-type AppState = {
-  currency: number;
-};
 
 class App extends PureComponent<PropRedux, AppState> {
   state: AppState = {
     currency: getCurrency(),
   };
 
-  handleCurrenc = () => {
+  setCurrency = () => {
     const currency = getCurrency();
 
     this.setState({ currency: currency });
   };
 
   componentDidMount() {
-    this.handleCurrenc();
+    this.setCurrency();
   }
   render() {
     const { currency } = this.state;
-    const { addToCart, cart, removeFromCart } = this.props;
+    const { addToCart, cart, removeFromCart} = this.props;
 
     return (
       <>
@@ -81,7 +49,7 @@ class App extends PureComponent<PropRedux, AppState> {
                 <HeaderComponent
                   cart={cart}
                   categories={categoryData}
-                  handleCurrency={this.handleCurrenc}
+                  setCurrency={this.setCurrency}
                   addCart={addToCart}
                   removeFromCart={removeFromCart}
                   currency={currency}
@@ -97,7 +65,6 @@ class App extends PureComponent<PropRedux, AppState> {
                           pageTitle={categoryData[0].name.toUpperCase()}
                           addCart={addToCart}
                           currency={currency}
-                          handleCurrency={this.handleCurrenc}
                         />
                       )}
                     />
@@ -110,7 +77,6 @@ class App extends PureComponent<PropRedux, AppState> {
                             pageTitle={values.name.toUpperCase()}
                             addCart={addToCart}
                             currency={currency}
-                            handleCurrency={this.handleCurrenc}
                           />
                         </Route>
 
@@ -118,7 +84,6 @@ class App extends PureComponent<PropRedux, AppState> {
                           path={`/${values.name}/:id`}
                           render={() => (
                             <ProductDetails
-                              handleCurrency={this.handleCurrenc}
                               addCart={addToCart}
                               removeFromCart={removeFromCart}
                               cart={cart}
@@ -132,7 +97,7 @@ class App extends PureComponent<PropRedux, AppState> {
                       path="/cart"
                       render={() => (
                         <CartPage
-                        currency={currency}
+                          currency={currency}
                           cart={cart}
                           addCart={addToCart}
                           removeFromCart={removeFromCart}

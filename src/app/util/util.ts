@@ -57,31 +57,35 @@ export function removeTags(str: string) {
   return str.replace(/(<([^>]+)>)/gi, "");
 }
 
-
-export function getAttribute(productData : Product, size?: string,
+export function getAttribute(
+  productData: Product,
+  size?: string,
   color?: string,
-  capacity?: string){
+  capacity?: string
+) {
   let defaultAttr = [];
 
   for (let x in productData.attributes) {
     const name = productData.attributes[x].name;
 
     if (name === "Size") {
-      defaultAttr.push(size === "" ?  productData.attributes[x].items[1].value! : size);
+      defaultAttr.push(
+        size === "" ? productData.attributes[x].items[1].value! : size
+      );
     } else if (name === "Color") {
-      defaultAttr.push( color === "" ?  productData.attributes[x].items[1].value! : color);
+      defaultAttr.push(
+        color === "" ? productData.attributes[x].items[1].value! : color
+      );
     } else if (name === "Capacity") {
-      defaultAttr.push(capacity === "" ?  productData.attributes[x].items[1].value! : capacity);
+      defaultAttr.push(
+        capacity === "" ? productData.attributes[x].items[1].value! : capacity
+      );
+    } else {
+      defaultAttr.push(productData.attributes[x].items[0].value!);
     }
-    else{
-      defaultAttr.push(productData.attributes[x].items[0].value!)
-    }  
-       
   }
- 
-  
-  return defaultAttr;
 
+  return defaultAttr;
 }
 
 export function getProductAttribute(
@@ -90,17 +94,11 @@ export function getProductAttribute(
   color?: string,
   capacity?: string
 ) {
-
-
-
-
-
   let defaultSize = "";
   let defaultColor = "";
   let defaultCapacity = "";
 
   for (let x in productData.attributes) {
-  
     let name = productData.attributes[x].name;
 
     if (name === "Size") {
@@ -110,15 +108,12 @@ export function getProductAttribute(
     } else if (name === "Capacity") {
       defaultCapacity = productData.attributes[x].items[1].value!;
     }
-
   }
 
   const theColor = color === "" || color === undefined ? defaultColor : color;
-  const theCapacity = capacity === "" || capacity === undefined ? defaultCapacity : capacity;
+  const theCapacity =
+    capacity === "" || capacity === undefined ? defaultCapacity : capacity;
   const theSize = size === "" || size === undefined ? defaultSize : size;
-
-
-
 
   let defaultAttr: DefaultAttribute = {
     defaultColor: theColor!,
@@ -129,10 +124,7 @@ export function getProductAttribute(
   return defaultAttr;
 }
 
-
-
-
-export function getCartAttr(cartItem : CartItems){
+export function getCartAttr(cartItem: CartItems) {
   let cartAttr = [];
   for (let x in cartItem.attributes) {
     const name = cartItem.attributes[x].name;
@@ -140,14 +132,12 @@ export function getCartAttr(cartItem : CartItems){
     if (name === "Size") {
       cartAttr.push(cartItem.selectedSize);
     } else if (name === "Color") {
-     cartAttr.push( cartItem.selectedColor);
+      cartAttr.push(cartItem.selectedColor);
     } else if (name === "Capacity") {
       cartAttr.push(cartItem.selectedCapacity);
+    } else {
+      cartAttr.push(cartItem.attributes[x].items[0].value!);
     }
-    else{
-      cartAttr.push(cartItem.attributes[x].items[0].value!)
-    }  
-       
   }
 
   return cartAttr;
@@ -215,15 +205,15 @@ export const getCurrency = () => {
   return currencyNum;
 };
 
-export const getCurrencySymbol = (cart : Cart | null, currency: number) =>{
+export const getCurrencySymbol = (cart: Cart | null, currency: number) => {
   let symbol = "";
-    let label = "";
+  let label = "";
 
-    if (cart !== null && cart?.items.length > 0) {
-      symbol = cart?.items[0].prices[currency].currency.symbol;
+  if (cart !== null && cart?.items.length > 0) {
+    symbol = cart?.items[0].prices[currency].currency.symbol;
 
-      label = cart?.items[0].prices[currency].currency.label;
-    }
+    label = cart?.items[0].prices[currency].currency.label;
+  }
 
-    return {symbol, label};
-}
+  return { symbol, label };
+};

@@ -6,10 +6,11 @@ import { ReactComponent as ArrowIcon } from "../../../images/arrowR.svg";
 import "./header.scss";
 import { getCurrency } from "../../util/util";
 import { CurrencyProps, CurrencyState } from "./headerState";
+import "./currencyDropdown.scss";
 
 
 
-class CurrencyList extends PureComponent<CurrencyProps> {
+class CurrencyDropdown extends PureComponent<CurrencyProps> {
   state: CurrencyState = {
     currencyNum: this.props.currencyActive,
   };
@@ -80,4 +81,4 @@ class CurrencyList extends PureComponent<CurrencyProps> {
   }
 }
 
-export default CurrencyList;
+export default CurrencyDropdown;

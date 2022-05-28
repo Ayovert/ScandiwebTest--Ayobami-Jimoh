@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { PureComponent, ReactNode } from "react";
-
 import { ReactComponent as CartIcon } from "../../../images/cart.svg";
 import {
   getQuantity,
@@ -8,10 +7,10 @@ import {
   getCurrencySymbol,
   getCartAttr,
 } from "../../util/util";
-
 import CartControls from "../../../features/Cart/cartControls";
 import ProductAttributeComponent from "../../../features/product/productDetails/productAttributeComponent";
 import { CartProps } from "../../../features/Cart/cartState";
+import "./cartDropdown.scss";
 
 class CartOverlay extends PureComponent<CartProps> {
   render(): ReactNode {

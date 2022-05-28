@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import CartOverlay from "./cartOverlay";
-import CurrencyList from "./currencylist";
+import CartDropdown from "./cartDropdown";
+import CurrencyDropdown from "./currencyDropdown";
 import "./header.scss";
 import { ReactComponent as CloudIcon } from "../../../images/clouds3.svg";
 import { PureComponent, ReactNode } from "react";
@@ -40,9 +40,9 @@ class HeaderComponent extends PureComponent<HeaderProps> {
             </NavLink>
           </div>
           <div className="rightNav">
-            <CurrencyList setCurrency={setCurrency} currencyActive={currency} />
+            <CurrencyDropdown setCurrency={setCurrency} currencyActive={currency} />
 
-            <CartOverlay
+            <CartDropdown
               cart={cart}
               addCart={addCart}
               removeFromCart={removeFromCart}

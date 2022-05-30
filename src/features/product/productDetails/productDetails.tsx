@@ -97,6 +97,7 @@ class ProductDetails extends Component<DetailsProps, ProductState> {
               return (
                 <>
                   <div className="productDetails">
+                    <div className="productImages">
                     <div className="miniImages">
                       {productData.gallery.map((value, index) => (
                         <ImageSwitcher
@@ -114,6 +115,8 @@ class ProductDetails extends Component<DetailsProps, ProductState> {
                         src={productData.gallery[imageIndex]}
                       />
                     </div>
+                    </div>
+                    
                     <div className="productAttributes">
                       <h1>{productData.brand}</h1>
                       <p className="productName">{productData.name}</p>

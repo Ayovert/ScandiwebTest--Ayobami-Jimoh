@@ -4,9 +4,10 @@
   //margin: 0 120px;
 .AppBody {
   margin: 0 200px;
-  @media (max-width: 1024px) { 
+  @media (max-width: 1200px) { 
     margin: 0;
-    margin-left: 30px;
+    margin: 30px 50px;
+    
   }
 }
 }

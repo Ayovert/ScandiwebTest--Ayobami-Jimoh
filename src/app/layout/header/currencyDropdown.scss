@@ -2,6 +2,12 @@
  .currencyDiv {
     position: relative;
     display: flex;
+
+    @media (max-width: 1200px) { 
+     .currencyButton{
+      padding: 15px;
+     }
+    }
     .currencyButton {
       background-color: inherit;
       border: none;

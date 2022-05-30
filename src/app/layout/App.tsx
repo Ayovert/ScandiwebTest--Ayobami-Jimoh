@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { Route, Switch } from "react-router-dom";
 import ProductDetails from "../../features/product/productDetails/productDetails";
 import NotFound from "../../features/error/NotFound";

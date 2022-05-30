@@ -2,6 +2,9 @@
   position: static;
   margin: 20px 200px 85px 200px;
   font-family: "Raleway", sans-serif;
+  @media (max-width: 1024px) { 
+    margin: 0;
+  }
 
   .subHeader {
     display: flex;

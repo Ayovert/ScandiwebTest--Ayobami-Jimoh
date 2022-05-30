@@ -1,0 +1,13 @@
+
+
+.App {
+  //margin: 0 120px;
+.AppBody {
+  margin: 0 200px;
+  @media (max-width: 1024px) { 
+    margin: 0;
+    margin-left: 30px;
+  }
+}
+}
+
